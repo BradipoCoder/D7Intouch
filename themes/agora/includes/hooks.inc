@@ -65,7 +65,6 @@ function agora_preprocess_entity(&$vars)
  */
 function agora_form_node_form_alter(&$form, $form_state)
 {
-    //@todo: we need camelize for 'node_edit' key to become NodeEdit
     HookHelper::executeGenericHook(['alter', 'form', 'node_edit'], [&$form, $form_state]);
 }
 
@@ -87,6 +86,15 @@ function agora_form_alter(&$form, &$form_state, $form_id)
 function agora_css_alter(&$css)
 {
     HookHelper::executeGenericHook(['alter', 'css'], [&$css], true);
+}
+
+/**
+ * Js alter hook
+ * @param array $js
+ */
+function agora_js_alter(&$js)
+{
+    HookHelper::executeGenericHook(['alter', 'javascript'], [&$js], true);
 }
 
 

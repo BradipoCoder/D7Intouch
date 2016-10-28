@@ -11,34 +11,41 @@ use Agora\Hook\Hook;
 use Agora\Hook\HookInterface;
 
 /**
- * Class NodeEdit
+ * Class Css
  *
- * @package Agora\Hook\Alter\Form
+ * @package Agora\Hook\Alter
  */
 class Css extends Hook implements HookInterface
 {
+    /** @var array */
+    private static $keep = [
+        'sites/all/libraries/fontawesome/css/font-awesome.css',
+        'sites/all/modules/custom/kadmin/less/basic.css.less',
+    ];
+    
     /**
      * @param array $css
      */
     public static function execute(&$css)
     {
-        self::excludeCoreDrupalCss($css);
+        self::excludeAllNonAgoraStyleSheets($css);
     }
-
+    
     /**
      * @param array $css
      */
-    private static function excludeCoreDrupalCss(&$css)
+    private static function excludeAllNonAgoraStyleSheets(&$css)
     {
-        $excludes = [
-            'modules/system/system.base.css'        => false,
-            'modules/system/system.menus.css'       => false,
-            'modules/system/system.messages.css'    => false,
-            'modules/system/system.theme.css'       => false,
-            'modules/field/theme/field.css'         => false,
-            'modules/node/node.css'                 => false,
-            'modules/user/user.css'                 => false,
-        ];
-        $css = array_diff_key($css, $excludes);
+        $themePath = drupal_get_path('theme', $GLOBALS['theme']);
+        
+        //dpm($css, "CSS(BEFORE)");
+        foreach ($css as $k => $v)
+        {
+            if (!(in_array($k, self::$keep) || preg_match('#^' . $themePath . '#', $k)))
+            {
+                unset($css[$k]);
+            }
+        }
+        //dpm($css, "CSS(AFTER)");
     }
 }

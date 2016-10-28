@@ -15,9 +15,11 @@ regions[footer]             = 'Footer'
 ;;;;;;;;;;;;;;;;;;;;;
 ;; Stylesheets
 ;;;;;;;;;;;;;;;;;;;;;
-stylesheets[all][] = less/style.less
+stylesheets[all][] = agora/style/style.less
 
 ;;;;;;;;;;;;;;;;;;;;;
 ;; Javascript
+;;
 ;;;;;;;;;;;;;;;;;;;;;
-scripts[] = js/agora.js
+
+
