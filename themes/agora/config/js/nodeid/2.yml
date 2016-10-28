@@ -1,0 +1,4 @@
+js:
+  # This is for node 2
+#  sites/agora/themes/agora/agora/scripts/node2.js:
+#    weight: -50

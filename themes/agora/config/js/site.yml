@@ -1,0 +1,34 @@
+js:
+  # HEADER SCRIPTS
+  sites/agora/themes/agora/agora/scripts/vendor/jquery-3.1.1.min.js:
+    scope: header
+    weight: -100
+  misc/jquery.once.js:
+    scope: header
+    weight: -99
+  misc/drupal.js:
+    scope: header
+    weight: -98
+
+  #ADMIN STUFF
+  sites/all/modules/contrib/devel/devel_krumo_path.js:
+    weight: -999
+  sites/all/modules/custom/kadmin/js/kadmin.js:
+    weight: -999
+
+
+  # FOOTER SCRIPTS - AGORA
+  sites/agora/themes/agora/agora/scripts/vendor/lightgallery.min.js:
+    weight: -100
+  sites/agora/themes/agora/agora/scripts/vendor/lightslider.min.js:
+    weight: -100
+  sites/agora/themes/agora/agora/scripts/vendor/ScrollMagic.min.js:
+    weight: -100
+  sites/agora/themes/agora/agora/scripts/vendor/jquery.ScrollMagic.min.js:
+     weight: -100
+  sites/agora/themes/agora/agora/scripts/vendor/debug.addIndicators.min.js:
+     weight: -100
+
+
+
+

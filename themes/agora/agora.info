@@ -17,9 +17,7 @@ regions[footer]             = 'Footer'
 ;;;;;;;;;;;;;;;;;;;;;
 stylesheets[all][] = agora/style/style.less
 
-;;;;;;;;;;;;;;;;;;;;;
-;; Javascript
-;;
-;;;;;;;;;;;;;;;;;;;;;
-
-
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Javascript                                              ;;
+;; Use configuration files for js inclusion in config/js   ;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
