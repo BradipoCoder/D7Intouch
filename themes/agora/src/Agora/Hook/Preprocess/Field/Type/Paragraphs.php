@@ -17,6 +17,6 @@ class Paragraphs extends Hook implements HookInterface
      */
     public static function execute(&$vars)
     {
-        //dpm($vars, "PARAGRAPH");
+        //dpm($vars, "PARAGRAPHS FIELD");
     }
 }

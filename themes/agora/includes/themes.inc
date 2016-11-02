@@ -22,6 +22,16 @@ function agora_theme()
 
 
 /**
+ * implements theme_preprocess_image();
+ * add class "img-responsive" to all images
+ */
+function agora_preprocess_image(&$vars) {
+    $vars['attributes']['class'][] = 'img-responsive';
+}
+
+
+
+/**
  * Implements hook_process_themehook()
 
 function seixml_preprocess_exercise(&$vars){

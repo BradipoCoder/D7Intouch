@@ -18,9 +18,22 @@ class ParagraphsItem extends Hook implements HookInterface
     public static function execute(&$vars)
     {
         self::setThemeHookSuggestions($vars);
-        //dpm($vars['theme_hook_suggestions'], "PIE THS");
+        self::setupItemClasses($vars);
+        dpm($vars, "PARAGRAPHS ITEM");
     }
     
+    /**
+     * @param array $vars
+     */
+    private static function setupItemClasses(&$vars)
+    {
+        $vars["classes_array"][] = 'article-module';
+        if(isset($vars['elements']['#bundle']))
+        {
+            $bundleName = strtolower($vars['elements']['#bundle']);
+            $vars["classes_array"][] = 'module--' . $bundleName;
+        }
+    }
     
     /**
      * @param array $vars
