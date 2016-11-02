@@ -91,6 +91,17 @@ class HookHelper
             $type = $arguments[0]['entity_type'];
             $hookNamePartsType = array_merge($hookNameParts, ['type', $type]);
             HookHelper::executeGenericHook($hookNamePartsType, $arguments, true);
+    
+            //Execute a hook for a specific paragraphs bundle
+            if($type == 'paragraphs_item')
+            {
+                if(isset($arguments[0]['elements']['#bundle']))
+                {
+                    $bundle = $arguments[0]['elements']['#bundle'];
+                    $hookNamePartsBundle = array_merge($hookNameParts, ['paragraphs', 'bundle', $bundle]);
+                    HookHelper::executeGenericHook($hookNamePartsBundle, $arguments, true);
+                }
+            }
         }
     }
 

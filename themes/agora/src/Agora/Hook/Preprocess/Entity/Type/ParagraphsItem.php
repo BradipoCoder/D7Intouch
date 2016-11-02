@@ -19,7 +19,7 @@ class ParagraphsItem extends Hook implements HookInterface
     {
         self::setThemeHookSuggestions($vars);
         self::setupItemClasses($vars);
-        dpm($vars, "PARAGRAPHS ITEM");
+        //dpm($vars, "PARAGRAPHS ITEM");
     }
     
     /**
@@ -27,11 +27,16 @@ class ParagraphsItem extends Hook implements HookInterface
      */
     private static function setupItemClasses(&$vars)
     {
+        $vars["classes_array"] = [];
         $vars["classes_array"][] = 'article-module';
         if(isset($vars['elements']['#bundle']))
         {
             $bundleName = strtolower($vars['elements']['#bundle']);
             $vars["classes_array"][] = 'module--' . $bundleName;
+            if($bundleName == 'imagegallery')
+            {
+                $vars["classes_array"][] = 'mobile-fullscreen';
+            }
         }
     }
     
