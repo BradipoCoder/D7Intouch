@@ -9,5 +9,7 @@
 ?>
 
 <div class="<?php print $classes; ?>">
-    <?php print render($content); ?>
+    <div class="video-container">
+        <?php print render($content["field_video"]); ?>
+    </div>
 </div>
