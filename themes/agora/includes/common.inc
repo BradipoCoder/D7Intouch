@@ -4,3 +4,8 @@
  * like: er...
  */
 
+/**
+ * defines constant for use in templates: "/sites/agora/themes/agora/agora/"
+ */
+defined('AGORAPATH') || define('AGORAPATH', '/' . $GLOBALS["theme_path"] . '/agora/');
+

@@ -12,9 +12,9 @@
 <?php //dsm("FIELD NAMES: " . json_encode(array_keys($content))); ?>
 
 
-<div id="node-<?php print $node->nid; ?>" class="<?php print $classes; ?>">
+<article id="node-<?php print $node->nid; ?>" class="<?php print $classes; ?>">
     <?php print render($title_prefix); ?>
     <?php print render($title_suffix); ?>
     <?php print render($content["title_field"]); ?>
     <?php print render($content["field_paragraphs_standard"]); ?>
-</div>
+</article>

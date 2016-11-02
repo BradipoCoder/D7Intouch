@@ -46,6 +46,9 @@ endif;
  */
 ?>
 
+<?php print render($page['content']['navbar']); ?>
+
+
 <div class="main-container">
     <?php print render($page['content']); ?>
 </div>
