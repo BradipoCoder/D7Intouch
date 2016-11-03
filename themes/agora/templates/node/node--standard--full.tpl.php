@@ -9,7 +9,7 @@
  *      <?php print render($content["nome_campo"]); ?>
  */
 ?>
-<?php //dsm("FIELD NAMES: " . json_encode(array_keys($content))); ?>
+<?php //echo("FIELD NAMES: " . json_encode(array_keys($content))); ?>
 
 
 <article id="node-<?php print $node->nid; ?>" class="<?php print $classes; ?>">
@@ -39,7 +39,7 @@
                 </div>
             </div>
         </header>
-        
+
         <?php print render($content["admin-buttons"]); ?>
     
         <div class="article-module article-cover mobile-fullscreen">
