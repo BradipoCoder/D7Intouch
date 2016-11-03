@@ -19,6 +19,7 @@ class Node extends Hook implements HookInterface
     {
         self::setThemeHookSuggestions($vars);
         self::setContainerDivClasses($vars);
+        self::addEditLink($vars);
         //dpm($vars['theme_hook_suggestions'], "NODE VARS");
     }
     
@@ -28,6 +29,22 @@ class Node extends Hook implements HookInterface
     private static function setContainerDivClasses(&$vars)
     {
         $vars['classes_array'][] = 'node-' . $vars['view_mode'];
+    }
+    
+    /**
+     * @param array $vars
+     */
+    private static function addEditLink(&$vars)
+    {
+        if(user_access('administer nodes')) {
+            $node = $vars['node'];
+            $vars['content']['admin-buttons'] = array(
+                '#prefix' => '<p>',
+                '#suffix' => '</p>',
+                '#markup' => l('Edit', 'node/' . $node->nid . '/edit'),
+                '#weight' => -1,
+            );
+        }
     }
     
     /**

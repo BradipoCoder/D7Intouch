@@ -39,6 +39,8 @@
                 </div>
             </div>
         </header>
+        
+        <?php print render($content["admin-buttons"]); ?>
     
         <div class="article-module article-cover mobile-fullscreen">
             <?php print render($content["field_image"]); ?>
