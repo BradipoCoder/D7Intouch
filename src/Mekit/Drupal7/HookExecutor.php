@@ -10,7 +10,12 @@ namespace Mekit\Drupal7;
 use Mekit\Drupal7\Exception\HookException;
 use Stringy\StaticStringy as S;
 
-class HookHelper
+/**
+ * Class HookExecutor
+ *
+ * @package Mekit\Drupal7
+ */
+class HookExecutor
 {
     /** @var string */
     protected static $hooksNameSpaceRoot = '';
@@ -24,7 +29,7 @@ class HookHelper
      */
     public static function setHooksNameSpaceRoot(string $hooksNameSpaceRoot)
     {
-        self::$hooksNameSpaceRoot = $hooksNameSpaceRoot;
+        HookExecutor::$hooksNameSpaceRoot = $hooksNameSpaceRoot;
     }
     
     
@@ -38,7 +43,7 @@ class HookHelper
      */
     public static function executeNodeHooks(array $hookNameParts, array $arguments = [])
     {
-        HookHelper::executeGenericHook($hookNameParts, $arguments);
+        HookExecutor::executeGenericHook($hookNameParts, $arguments);
         if (isset($arguments[0]['node']))
         {
             /** @var \stdClass $node */
@@ -48,14 +53,14 @@ class HookHelper
             if (isset($node->type))
             {
                 $hookNamePartsType = array_merge($hookNameParts, ['type', $node->type]);
-                HookHelper::executeGenericHook($hookNamePartsType, $arguments, true);
+                HookExecutor::executeGenericHook($hookNamePartsType, $arguments, true);
             }
             
             //Execute a hook for a specific node id
             if (isset($node->nid))
             {
                 $hookNamePartsId = array_merge($hookNameParts, ['id', 'node' . $node->nid]);
-                HookHelper::executeGenericHook($hookNamePartsId, $arguments, true);
+                HookExecutor::executeGenericHook($hookNamePartsId, $arguments, true);
             }
         }
     }
@@ -70,14 +75,14 @@ class HookHelper
      */
     public static function executeFieldHooks(array $hookNameParts, array $arguments = [])
     {
-        HookHelper::executeGenericHook($hookNameParts, $arguments);
+        HookExecutor::executeGenericHook($hookNameParts, $arguments);
         
         //Execute a hook for a specific type
         if (isset($arguments[0]['element']['#field_type']))
         {
             $type = $arguments[0]['element']['#field_type'];
             $hookNamePartsType = array_merge($hookNameParts, ['type', $type]);
-            HookHelper::executeGenericHook($hookNamePartsType, $arguments, true);
+            HookExecutor::executeGenericHook($hookNamePartsType, $arguments, true);
         }
     }
     
@@ -91,14 +96,14 @@ class HookHelper
      */
     public static function executeEntityHooks(array $hookNameParts, array $arguments = [])
     {
-        HookHelper::executeGenericHook($hookNameParts, $arguments);
+        HookExecutor::executeGenericHook($hookNameParts, $arguments);
         
         //Execute a hook for a specific type
         if (isset($arguments[0]['entity_type']))
         {
             $type = $arguments[0]['entity_type'];
             $hookNamePartsType = array_merge($hookNameParts, ['type', $type]);
-            HookHelper::executeGenericHook($hookNamePartsType, $arguments, true);
+            HookExecutor::executeGenericHook($hookNamePartsType, $arguments, true);
             
             //Execute a hook for a specific paragraphs bundle
             if ($type == 'paragraphs_item')
@@ -107,7 +112,7 @@ class HookHelper
                 {
                     $bundle = $arguments[0]['elements']['#bundle'];
                     $hookNamePartsBundle = array_merge($hookNameParts, ['paragraphs', 'bundle', $bundle]);
-                    HookHelper::executeGenericHook($hookNamePartsBundle, $arguments, true);
+                    HookExecutor::executeGenericHook($hookNamePartsBundle, $arguments, true);
                 }
             }
         }
@@ -129,7 +134,7 @@ class HookHelper
         $answer = false;
         try
         {
-            $answer = self::callHookExecute($hookNameParts, $arguments);
+            $answer = HookExecutor::callHookExecute($hookNameParts, $arguments);
         }
         catch(HookException $e)
         {
@@ -154,7 +159,7 @@ class HookHelper
      */
     private static function callHookExecute(array $hookNameParts, array $arguments = [])
     {
-        $hookClassPath = HookHelper::resolveToClassPath($hookNameParts);
+        $hookClassPath = HookExecutor::resolveToClassPath($hookNameParts);
         
         return call_user_func_array([$hookClassPath, "execute"], $arguments);
     }
@@ -177,7 +182,7 @@ class HookHelper
             $hookNamePart = S::upperCamelize($hookNamePart);
         }
         
-        $hookClassPath = self::$hooksNameSpaceRoot . implode("\\", $hookNameParts);
+        $hookClassPath = HookExecutor::$hooksNameSpaceRoot . implode("\\", $hookNameParts);
         
         if (!class_exists($hookClassPath))
         {

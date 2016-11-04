@@ -1,6 +1,6 @@
 <?php
 
-use Mekit\Drupal7\HookHelper;
+use Mekit\Drupal7\HookExecutor;
 use Mekit\Drupal7\Exception\ThemeException;
 
 /**
@@ -10,7 +10,7 @@ use Mekit\Drupal7\Exception\ThemeException;
  */
 function agora_preprocess_html(&$vars)
 {
-    HookHelper::executeGenericHook(['preprocess', 'html'], [&$vars]);
+    HookExecutor::executeGenericHook(['preprocess', 'html'], [&$vars]);
 }
 
 /**
@@ -19,7 +19,7 @@ function agora_preprocess_html(&$vars)
  * @throws ThemeException
  */
 function agora_preprocess_page(&$vars) {
-    HookHelper::executeGenericHook(['preprocess', 'page'], [&$vars]);
+    HookExecutor::executeGenericHook(['preprocess', 'page'], [&$vars]);
 }
 
 /**
@@ -28,7 +28,7 @@ function agora_preprocess_page(&$vars) {
  */
 function agora_preprocess_node(&$vars)
 {
-    HookHelper::executeNodeHooks(['preprocess', 'node'], [&$vars]);
+    HookExecutor::executeNodeHooks(['preprocess', 'node'], [&$vars]);
 }
 
 /**
@@ -37,7 +37,7 @@ function agora_preprocess_node(&$vars)
  */
 function agora_preprocess_field(&$vars)
 {
-    HookHelper::executeFieldHooks(['preprocess', 'field'], [&$vars]);
+    HookExecutor::executeFieldHooks(['preprocess', 'field'], [&$vars]);
 }
 
 /**
@@ -46,7 +46,7 @@ function agora_preprocess_field(&$vars)
  */
 function agora_preprocess_paragraphs_items(&$vars)
 {
-    HookHelper::executeGenericHook(['preprocess', 'paragraphs_items'], [&$vars]);
+    HookExecutor::executeGenericHook(['preprocess', 'paragraphs_items'], [&$vars]);
 }
 
 /**
@@ -55,7 +55,7 @@ function agora_preprocess_paragraphs_items(&$vars)
  */
 function agora_preprocess_entity(&$vars)
 {
-    HookHelper::executeEntityHooks(['preprocess', 'entity'], [&$vars]);
+    HookExecutor::executeEntityHooks(['preprocess', 'entity'], [&$vars]);
 }
 
 /**
@@ -65,7 +65,7 @@ function agora_preprocess_entity(&$vars)
  */
 function agora_form_node_form_alter(&$form, $form_state)
 {
-    HookHelper::executeGenericHook(['alter', 'form', 'node_edit'], [&$form, $form_state]);
+    HookExecutor::executeGenericHook(['alter', 'form', 'node_edit'], [&$form, $form_state]);
 }
 
 /**
@@ -76,7 +76,7 @@ function agora_form_node_form_alter(&$form, $form_state)
  */
 function agora_form_alter(&$form, &$form_state, $form_id)
 {
-    HookHelper::executeGenericHook(['alter', 'form', 'id', $form_id], [&$form, $form_state], true);
+    HookExecutor::executeGenericHook(['alter', 'form', 'id', $form_id], [&$form, $form_state], true);
 }
 
 /**
@@ -85,7 +85,7 @@ function agora_form_alter(&$form, &$form_state, $form_id)
  */
 function agora_css_alter(&$css)
 {
-    HookHelper::executeGenericHook(['alter', 'css'], [&$css], true);
+    HookExecutor::executeGenericHook(['alter', 'css'], [&$css], true);
 }
 
 /**
@@ -94,7 +94,7 @@ function agora_css_alter(&$css)
  */
 function agora_js_alter(&$js)
 {
-    HookHelper::executeGenericHook(['alter', 'javascript'], [&$js], true);
+    HookExecutor::executeGenericHook(['alter', 'javascript'], [&$js], true);
 }
 
 
@@ -106,6 +106,6 @@ function agora_js_alter(&$js)
  */
 function agora_menu_local_tasks_alter(&$data, $router_item, $root_path)
 {
-    HookHelper::executeGenericHook(['alter', 'menu', 'local_tasks'], [&$data, $router_item, $root_path]);
+    HookExecutor::executeGenericHook(['alter', 'menu', 'local_tasks'], [&$data, $router_item, $root_path]);
 }
 

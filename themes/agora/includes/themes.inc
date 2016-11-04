@@ -1,6 +1,6 @@
 <?php
 
-use Mekit\Drupal7\HookHelper;
+use Mekit\Drupal7\HookExecutor;
 use Mekit\Drupal7\Exception\ThemeException;
 
 /**
