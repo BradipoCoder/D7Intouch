@@ -1,5 +1,8 @@
 <?php
 
+use Mekit\Drupal7\HookHelper;
+use Mekit\Drupal7\Exception\ThemeException;
+
 /**
  * The main theme hook for defining theme functions
  */

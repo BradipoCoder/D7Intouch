@@ -1,7 +1,7 @@
 <?php
 
-use Agora\Util\HookHelper;
-use Agora\Exception\ThemeException;
+use Mekit\Drupal7\HookHelper;
+use Mekit\Drupal7\Exception\ThemeException;
 
 /**
  * Implements hook_preprocess_html()

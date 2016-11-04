@@ -1,21 +1,16 @@
 <?php
 /**
- * Agora Theme for D7
- */
-
-/**
- * Composer autoloader
+ * Composer autoloader in current site
  */
 require_once __DIR__ . "/../../vendor/autoload.php";
 
 /**
- * Common methods shared by theme which cannot be included into classes
- * because of D7 methodology
+ * Common defines and functions
  */
 require __DIR__ . "/includes/common.inc";
 
 /**
- * All D7 hooks are registered here
+ * Hooks functions
  */
 require_once __DIR__ . "/includes/hooks.inc";
 
