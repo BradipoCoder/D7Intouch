@@ -9,8 +9,6 @@
 
 # THEMES
 /themes/agora/agora/
-/themes/agora/vendor/
-/themes/agora/composer.lock
 
 # ALL
 .directory
