@@ -16,18 +16,67 @@ class Html implements HookInterface
      */
     public static function execute(&$vars)
     {
-        //self::addGoogleFonts();
+        self::addCustomBodyClasses($vars);
+        //dpm($vars, "HTML");
     }
-
-
-    private static function addGoogleFonts() {
-        $fonts = array(
-            0 => 'http://fonts.googleapis.com/css?family=Montserrat:400,700',
-            1 => 'http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,300,400,600',
-        );
-
-        foreach ($fonts as $key => $css) {
-            drupal_add_css($css, array('type' => 'external'));
+    
+    /**
+     * @param array $vars
+     */
+    private static function addCustomBodyClasses(&$vars) {
+        $customClasses = [];
+        $node = self::getNodeFromHtmlVars($vars);
+        if($node)
+        {
+            //Article Category Name
+            if(isset($node->field_category[LANGUAGE_NONE][0]['taxonomy_term']))
+            {
+                /** @var \stdClass $TT */
+                $TT = $node->field_category[LANGUAGE_NONE][0]['taxonomy_term'];
+                if(isset($TT->name) && !empty($TT->name))
+                {
+                    $customClasses[] = 'article-category-' . strtolower(trim($TT->name));
+                }
+            }
         }
+        if(count($customClasses))
+        {
+            $vars['classes_array'] = array_merge($vars['classes_array'], $customClasses);
+        }
+    }
+    
+    /**
+     * @param array $vars
+     *
+     * @return bool|\stdClass
+     */
+    private static function getNodeFromHtmlVars(&$vars)
+    {
+        $node = false;
+        if(isset($vars['page']['content']['system_main']['nodes']))
+        {
+            $nodes = $vars['page']['content']['system_main']['nodes'];
+            
+            /**
+             * @var string $nid
+             * @var array $n
+             */
+            foreach($nodes as $nid => $n)
+            {
+                if(isset($n['#entity_type']) && isset($n['#bundle']))
+                {
+                    if($n['#entity_type'] == 'node')
+                    {
+                        if(isset($n['#node']))
+                        {
+                            /** @var \stdClass $node */
+                            $node = $n['#node'];
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+        return $node;
     }
 }

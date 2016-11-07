@@ -17,7 +17,7 @@ class Video implements HookInterface
     public static function execute(&$vars)
     {
         self::addCleanVideoUrlToContent($vars);
-        dpm($vars, "VIDEO");
+        //dpm($vars, "VIDEO");
     }
     
     /**
