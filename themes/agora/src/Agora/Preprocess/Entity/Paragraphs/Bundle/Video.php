@@ -20,6 +20,9 @@ class Video implements HookInterface
         dpm($vars, "VIDEO");
     }
     
+    /**
+     * @param array $vars
+     */
     private static function addCleanVideoUrlToContent(&$vars)
     {
         $cleanVideoUrl = '';
@@ -31,5 +34,4 @@ class Video implements HookInterface
             '#markup' => $cleanVideoUrl,
         ];
     }
-    
 }
