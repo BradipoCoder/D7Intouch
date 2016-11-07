@@ -28,6 +28,7 @@ class Page implements HookInterface
         {
             /** @var \stdClass $node */
             $node = $vars["node"];
+            
             if(in_array($node->type, ["standard", "long"]))
             {
                 //dpm($node, "PAGE NODE");
@@ -55,6 +56,11 @@ class Page implements HookInterface
                     '#issue' => 'ISSUE #' . $parentIssueNumber,
                     '#article_title' => $title,
                 ];
+                
+                /*
+                 * When Article navbar is present - we remove the primary navigation
+                 */
+                unset($vars['page']['wide_top']['system_main-menu']);
             }
         }
     }
