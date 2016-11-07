@@ -31,8 +31,9 @@
                     <div class="article-context faded hidden-xs">
                         <div class="context-inner">
                             <span class="agora-magazine">Agora Magazine</span> /
-                            <a href="#" class="btn btn-outline btn-xs">Issue #<?php print render
-                                ($content["issue_number"]); ?></a>
+                            <a href="#" class="btn btn-outline btn-xs">
+                                Issue #<?php print render($content["issue_number"]); ?>
+                            </a>
                         </div>
                         <div class="line"></div>
                     </div>
