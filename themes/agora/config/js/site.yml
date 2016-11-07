@@ -28,7 +28,6 @@ js:
      weight: -100
   sites/agora/themes/agora/agora/scripts/vendor/debug.addIndicators.min.js:
      weight: -100
-
-
-
+  sites/agora/themes/agora/agora/scripts/vendor/plyr.js:
+     weight: -100
 
