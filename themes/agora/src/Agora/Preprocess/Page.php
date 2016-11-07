@@ -53,7 +53,7 @@ class Page implements HookInterface
                     '#theme' => 'article_navbar',
                     '#backlink' => url('<front>', []),
                     '#issue' => 'ISSUE #' . $parentIssueNumber,
-                    '#article_title' => $parentTitle,
+                    '#article_title' => $title,
                 ];
             }
         }

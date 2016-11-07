@@ -48,11 +48,13 @@ class Standard implements HookInterface
     private static function setupArticleClasses(&$vars)
     {
         $vars["classes_array"][] = 'magazine-article';
+        /*
         if(isset($vars['field_category'][0]['taxonomy_term']->name))
         {
             $categoryName = strtolower($vars['field_category'][0]['taxonomy_term']->name);
             $vars["classes_array"][] = 'category--' . $categoryName;
         }
+        */
     }
 
 }

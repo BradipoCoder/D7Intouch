@@ -8,6 +8,7 @@
 namespace Agora\Preprocess;
 
 use Mekit\Drupal7\HookInterface;
+use Stringy\StaticStringy;
 
 class Html implements HookInterface
 {
@@ -35,7 +36,8 @@ class Html implements HookInterface
                 $TT = $node->field_category[LANGUAGE_NONE][0]['taxonomy_term'];
                 if(isset($TT->name) && !empty($TT->name))
                 {
-                    $customClasses[] = 'article-category-' . strtolower(trim($TT->name));
+                    
+                    $customClasses[] = 'article-category-' . StaticStringy::underscored($TT->name);
                 }
             }
         }
