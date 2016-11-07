@@ -46,6 +46,7 @@ class ParagraphsItem implements HookInterface
     {
         $bundle = $vars['paragraphs_item']->bundle;
         $bundleContextFieldName = $vars['paragraphs_item']->field_name;
+        $bundleContextFieldName = str_replace('field_paragraphs_' , '', $bundleContextFieldName);
         $viewMode = $vars['view_mode'];
         
         $vars['theme_hook_suggestions'] = [];

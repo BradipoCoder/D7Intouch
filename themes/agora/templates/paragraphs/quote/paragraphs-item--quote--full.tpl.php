@@ -8,9 +8,11 @@
  */
 ?>
 <div class="<?php print $classes; ?>">
-    <p class="container-fluid">
+    <div class="container">
         <blockquote>
-            <p><?php print render($content); ?></p>
+            <p>
+                <?php print render($content); ?>
+            </p>
         </blockquote>
     </div>
 </div>

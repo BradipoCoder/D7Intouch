@@ -50,9 +50,9 @@
     </div>
     
     <section class="article-body" id="longform-body">
-        <?php print render($content["admin-buttons"]); ?>
-        
-        <?php print render($content["field_paragraphs_standard"]); ?>
+        <?php print render($content["field_paragraphs_long"]); ?>
     </section>
-
+    
+    <?php print render($content["admin-buttons"]); ?>
+    
 </article>
