@@ -10,10 +10,13 @@
  * paragraphs-item--[bundle].tpl.php
  * paragraphs-item.tpl.php
  *
- * bundles: text, image, imagegallery, quote, video ... more to come ;)
+ * bundles:
+ *  text, image, imagegallery, quote, video ... more to come ;)
+ *
  * contexts:
- *  - field-paragraphs-standard
- *  - field-paragraphs-full (not yet)
+ *  - standard
+ *  - long
+ *
  * view modes:
  *  - full
  *  - teaser
