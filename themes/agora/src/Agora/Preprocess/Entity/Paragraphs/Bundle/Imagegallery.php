@@ -44,12 +44,12 @@ class Imagegallery implements HookInterface
     private static function getGalleryImages(&$vars)
     {
         $answer = [];
-        if (isset($vars['elements']['#entity']->field_images['und'])
-            && is_array($vars['elements']['#entity']->field_images['und'])
-            && count($vars['elements']['#entity']->field_images['und'])
+        if (isset($vars['elements']['#entity']->field_images[LANGUAGE_NONE])
+            && is_array($vars['elements']['#entity']->field_images[LANGUAGE_NONE])
+            && count($vars['elements']['#entity']->field_images[LANGUAGE_NONE])
         )
         {
-            $imageElements = $vars['elements']['#entity']->field_images['und'];
+            $imageElements = $vars['elements']['#entity']->field_images[LANGUAGE_NONE];
             foreach($imageElements as $imageElement)
             {
                 $img_orig_uri = $imageElement["uri"];
