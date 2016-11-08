@@ -1,2 +1,0 @@
-/* AGORA */
-//alert("uuuuuuuuuuuuuuuuuuuuuuuuuh!");
