@@ -3,10 +3,11 @@
 /**
  * Paragraphs item container
  * Bundle:      quote
- * Context:     any
+ * Context:     standard
  * View mode:   any
  */
 ?>
+
 <div class="<?php print $classes; ?>">
     <div class="container-fluid">
         <blockquote>

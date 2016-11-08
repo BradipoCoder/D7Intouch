@@ -1,12 +1,12 @@
 <?php
-
 /**
  * Paragraphs item container
  * Bundle:      quote
- * Context:     any
+ * Context:     long
  * View mode:   any
  */
 ?>
+
 <div class="<?php print $classes; ?>">
     <div class="container">
         <blockquote>
