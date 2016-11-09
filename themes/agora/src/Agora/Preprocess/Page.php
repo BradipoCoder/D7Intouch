@@ -51,10 +51,11 @@ class Page implements HookInterface
                 }
                 
                 $vars['page']['content']['navbar'] = [
-                    '#theme' => 'article_navbar',
+                    '#theme' => 'article_navbar',/*. '__' . $node->type*/
                     '#backlink' => url('<front>', []),
                     '#issue' => 'ISSUE #' . $parentIssueNumber,
                     '#article_title' => $title,
+                    '#node_type' => $node->type,
                 ];
                 
                 /*

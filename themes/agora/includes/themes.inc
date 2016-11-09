@@ -12,9 +12,10 @@ function agora_theme()
     return [
         'article_navbar' => [
             'template' => 'article-navbar',
-            'pattern'   => 'article-navbar__',
+            'pattern'   => 'article_navbar__',
             'path'      => $themePath . '/templates/navbar',
             'variables' => [
+                'node_type' =>      NULL,
                 'backlink' =>       NULL,
                 'issue' =>          NULL,
                 'article_title' =>  NULL,
@@ -23,6 +24,16 @@ function agora_theme()
     ];
 }
 
+function agora_preprocess_article_navbar(&$vars) {
+    $vars['theme_hook_suggestions'] = [];
+    if(isset($vars["node_type"]))
+    {
+        $vars['theme_hook_suggestions'][] = 'article_navbar__' . $vars["node_type"];
+        $vars['theme_hook_suggestions'][] = 'article_navbar__' . $vars["node_type"] . '__daiii';
+    }
+
+    //dpm($vars, "PP_NAVBAR");
+}
 
 /**
  * implements theme_preprocess_image();
@@ -31,16 +42,3 @@ function agora_theme()
 function agora_preprocess_image(&$vars) {
     $vars['attributes']['class'][] = 'img-responsive';
 }
-
-
-
-/**
- * Implements hook_process_themehook()
-
-function seixml_preprocess_exercise(&$vars){
-    $vars['class'] = '';
-    if (isset($vars['ex_classes_array'])){
-        $vars['class'] = implode($vars['ex_classes_array'], ' ');
-    }
-}
-*/

@@ -18,8 +18,28 @@ class Event implements HookInterface
     {
         self::setupArticleClasses($vars);
         self::addIssueFieldsToContent($vars);
+        self::fixFieldEventLocation($vars);
         
-        //krumo($vars["content"]);
+        //dpm($vars, "EVENT");
+    }
+    
+    //https://www.google.com/calendar/render?action=TEMPLATE&text=Your+Event+Name&dates=20140127T224000Z/20140320T221500Z&details=For+details,+link+here:+http://www.example.com&location=Waldorf+Astoria,+301+Park+Ave+,+New+York,+NY+10022&sf=true&output=xml
+    
+    
+    
+    
+    /**
+     * This field is in plaintext format but we need to preserve the newlines
+     * @param array $vars
+     */
+    private static function fixFieldEventLocation(&$vars)
+    {
+        if(isset($vars['content']['field_event_location'][0]['#markup']))
+        {
+            $markup = $vars['content']['field_event_location'][0]['#markup'];
+            $markup = nl2br(trim($markup));
+            $vars['content']['field_event_location'][0]['#markup'] = $markup;
+        }
     }
     
     /**

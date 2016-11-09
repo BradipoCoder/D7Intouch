@@ -60,8 +60,7 @@
                                             <img src="<?php print AGORAPATH; ?>/images/icons/clock__white.svg" width="16">
                                         </h5>
                                         <p>
-                                            <?php print render($content["field_event_date"]); ?><br>
-                                            <?php print render($content["field_event_time"]); ?>
+                                            <?php print render($content["field_event_date"]); ?>
                                         </p>
                                     </div>
                                     <div class="col-xs-6 col-sm-12">
@@ -69,7 +68,7 @@
                                             <img src="<?php print AGORAPATH; ?>/images/icons/location__white.svg" height="25">
                                         </h5>
                                         <p>
-                                            <?php print nl2br(trim(render($content["field_event_location"]))); ?>
+                                            <?php print render($content["field_event_location"]); ?>
                                         </p>
                                     </div>
                                 </div>

@@ -1,11 +1,13 @@
 <?php
 
-use Mekit\Drupal7\HookExecutor;
 use Mekit\Drupal7\Exception\ThemeException;
+use Mekit\Drupal7\HookExecutor;
 
 /**
  * Implements hook_preprocess_html()
+ *
  * @param array $vars
+ *
  * @throws ThemeException
  */
 function agora_preprocess_html(&$vars)
@@ -15,15 +17,19 @@ function agora_preprocess_html(&$vars)
 
 /**
  * Implements hook_preprocess_page()
+ *
  * @param array $vars
+ *
  * @throws ThemeException
  */
-function agora_preprocess_page(&$vars) {
+function agora_preprocess_page(&$vars)
+{
     HookExecutor::executeGenericHook(['preprocess', 'page'], [&$vars]);
 }
 
 /**
  * Implements hook_preprocess_node()
+ *
  * @param array $vars
  */
 function agora_preprocess_node(&$vars)
@@ -33,6 +39,7 @@ function agora_preprocess_node(&$vars)
 
 /**
  * Implements hook_preprocess_field()
+ *
  * @param array $vars
  */
 function agora_preprocess_field(&$vars)
@@ -42,6 +49,7 @@ function agora_preprocess_field(&$vars)
 
 /**
  * Implements hook_preprocess_paragraphs_items()
+ *
  * @param $vars
  */
 function agora_preprocess_paragraphs_items(&$vars)
@@ -51,6 +59,7 @@ function agora_preprocess_paragraphs_items(&$vars)
 
 /**
  * Implements hook_preprocess_paragraphs_item()
+ *
  * @param $vars
  */
 function agora_preprocess_entity(&$vars)
@@ -60,6 +69,7 @@ function agora_preprocess_entity(&$vars)
 
 /**
  * Generic node(all types) edit form hook
+ *
  * @param array $form
  * @param array $form_state
  */
@@ -70,8 +80,9 @@ function agora_form_node_form_alter(&$form, $form_state)
 
 /**
  * Form specific alter hook
- * @param array $form
- * @param array $form_state
+ *
+ * @param array  $form
+ * @param array  $form_state
  * @param string $form_id
  */
 function agora_form_alter(&$form, &$form_state, $form_id)
@@ -81,6 +92,7 @@ function agora_form_alter(&$form, &$form_state, $form_id)
 
 /**
  * Css alter hook
+ *
  * @param array $css
  */
 function agora_css_alter(&$css)
@@ -90,6 +102,7 @@ function agora_css_alter(&$css)
 
 /**
  * Js alter hook
+ *
  * @param array $js
  */
 function agora_js_alter(&$js)
@@ -97,11 +110,11 @@ function agora_js_alter(&$js)
     HookExecutor::executeGenericHook(['alter', 'javascript'], [&$js], true);
 }
 
-
 /**
  * Form specific alter hook
- * @param array $data
- * @param array $router_item
+ *
+ * @param array  $data
+ * @param array  $router_item
  * @param string $root_path
  */
 function agora_menu_local_tasks_alter(&$data, $router_item, $root_path)
