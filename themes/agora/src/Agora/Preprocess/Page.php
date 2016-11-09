@@ -17,7 +17,7 @@ class Page implements HookInterface
     public static function execute(&$vars)
     {
         self::killNoContentSystemMessage($vars);
-        self::generateArticleNavbar($vars);
+        //self::generateArticleNavbar($vars);
         
         //dpm($vars, "PAGE VARS");
     }
@@ -50,18 +50,18 @@ class Page implements HookInterface
                     }
                 }
                 
+                
                 $vars['page']['content']['navbar'] = [
-                    '#theme' => 'article_navbar',/*. '__' . $node->type*/
+                    '#theme' => 'articlenavbar',
                     '#backlink' => url('<front>', []),
                     '#issue' => 'ISSUE #' . $parentIssueNumber,
                     '#article_title' => $title,
                     '#node_type' => $node->type,
                 ];
                 
-                /*
-                 * When Article navbar is present - we remove the primary navigation
-                 */
+                // When Article navbar is present - we remove the primary navigation
                 unset($vars['page']['wide_top']['system_main-menu']);
+                
             }
         }
     }

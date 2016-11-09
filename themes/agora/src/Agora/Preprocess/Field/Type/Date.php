@@ -24,7 +24,7 @@ class Date implements HookInterface
     {
         if($vars['element']['#field_name'] == 'field_event_date')
         {
-            dpm($vars, "EVENT DATE");
+            //dpm($vars, "EVENT DATE");
         }
     }
     
