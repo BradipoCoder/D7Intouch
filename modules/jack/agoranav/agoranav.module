@@ -1,0 +1,41 @@
+<?php
+
+/**
+ * @return array
+ */
+function agoranav_theme()
+{
+    //$themePath = drupal_get_path('theme', $GLOBALS['theme']);
+    return [
+        'agoranav' => [
+            'template' =>  'agoranav',
+            'pattern'   => 'agoranav__',
+            'variables' => [
+                'backlink' =>       NULL,
+                'issue' =>          NULL,
+                'article_title' =>  NULL,
+            ],
+        ],
+    ];
+}
+
+/**
+ * @param array $vars
+ */
+function agoranav_preprocess_agoranav(&$vars)
+{
+    $obj = menu_get_object();
+    if($obj && is_object($obj))
+    {
+        //dpm($obj, "OBJ");
+        if(isset($obj->type))
+        {
+            $vars['theme_hook_suggestions'][] = 'agoranav__' . $obj->type;
+        }
+        if(isset($obj->nid))
+        {
+            $vars['theme_hook_suggestions'][] = 'agoranav__' . $obj->nid;
+        }
+    }
+    //dpm($vars, "AGORANAV");
+}

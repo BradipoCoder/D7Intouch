@@ -17,7 +17,7 @@ class Page implements HookInterface
     public static function execute(&$vars)
     {
         self::killNoContentSystemMessage($vars);
-        //self::generateArticleNavbar($vars);
+        self::generateArticleNavbar($vars);
         
         //dpm($vars, "PAGE VARS");
     }
@@ -52,11 +52,10 @@ class Page implements HookInterface
                 
                 
                 $vars['page']['content']['navbar'] = [
-                    '#theme' => 'articlenavbar',
+                    '#theme' => 'agoranav',
                     '#backlink' => url('<front>', []),
                     '#issue' => 'ISSUE #' . $parentIssueNumber,
                     '#article_title' => $title,
-                    '#node_type' => $node->type,
                 ];
                 
                 // When Article navbar is present - we remove the primary navigation

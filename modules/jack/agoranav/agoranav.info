@@ -1,0 +1,4 @@
+name = Agora Navigation
+description = Special navigation for Agora
+core = 7.x
+package = Agora
