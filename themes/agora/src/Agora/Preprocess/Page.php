@@ -29,7 +29,7 @@ class Page implements HookInterface
             /** @var \stdClass $node */
             $node = $vars["node"];
             
-            if(in_array($node->type, ["standard", "long"]))
+            if(in_array($node->type, ["standard", "long", "event"]))
             {
                 //dpm($node, "PAGE NODE");
     

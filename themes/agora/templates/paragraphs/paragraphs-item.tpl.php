@@ -16,6 +16,7 @@
  * contexts:
  *  - standard
  *  - long
+ *  - event
  *
  * view modes:
  *  - full
