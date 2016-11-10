@@ -73,7 +73,7 @@
                                     </div>
                                 </div>
                                 <div class="register-container">
-                                    <a href="<?php print $google_calendar_link; ?>" class="btn btn-default btn-block btn-inner-icon"><span>Register now</span>
+                                    <a href="<?php print $google_calendar_link; ?>" class="btn btn-default btn-block btn-inner-icon"><span>Add to calendar</span>
                                         <img src="<?php print AGORAPATH; ?>/images/icons/arrow-right__white.svg"></a>
                                 </div>
                             </header>

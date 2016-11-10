@@ -7,6 +7,7 @@
 
 namespace Agora\Preprocess\Node\Type;
 
+use Agora\Util\ThemeHelper;
 use Mekit\Drupal7\HookInterface;
 use Stringy\StaticStringy;
 
@@ -44,13 +45,11 @@ class Event implements HookInterface
      */
     private static function addGoogleCalendarLink(&$vars)
     {
-        $link = "";
+        $link = "#";
         if(isset($vars['field_event_date'][0]['value']) && isset($vars['field_event_date'][0]['value2']))
         {
-            $path = 'https://www.google.com/calendar/render';
-            
             // Title
-            $eventTitle = $vars["title"];
+            $title = $vars["title"];
             
             // Details
             $details = '';
@@ -61,43 +60,16 @@ class Event implements HookInterface
             if(isset($vars['field_event_location'][0]['value']))
             {
                 $location = $vars['field_event_location'][0]['value'];
-                $location = str_replace("\n", " ", $location);
             }
     
-            //Dates - Format: dates=YYYYMMDDToHHMMSSZ/YYYYMMDDToHHMMSSZ
-            //dpm($vars['field_event_date'][0], "FED");
+            // Dates
             $timeZone = new \DateTimeZone($vars['field_event_date'][0]['timezone']);
             $startDate = new \DateTime($vars['field_event_date'][0]['value'], $timeZone);
             $finishDate = new \DateTime($vars['field_event_date'][0]['value2'], $timeZone);
             
-            $timeZoneUTC = new \DateTimeZone('UTC');
-            $startDateUTC = clone $startDate;
-            $startDateUTC->setTimezone($timeZoneUTC);
-            $finishDateUTC = clone $finishDate;
-            $finishDateUTC->setTimezone($timeZoneUTC);
-            
-            $startDateStr = $startDateUTC->format("Ymd") . 'T' . $startDateUTC->format("His") . 'Z';
-            $finishDateStr = $finishDateUTC->format("Ymd") . 'T' . $finishDateUTC->format("His") . 'Z';
-            $dates = $startDateStr . '/' . $finishDateStr;
-            
-                
-            $options = [
-                'absolute' => true,
-                'external' => true,
-                'query'    => [
-                    'action'   => 'TEMPLATE',
-                    'text'     => $eventTitle,
-                    'details'  => $details,
-                    'location' => $location,
-                    'dates'    => $dates,
-                    'trp'      => 'false',
-                    'sf'       => 'true',
-                    'output'   => 'xml',
-                ],
-            ];
-            $link = url($path, $options);
+            $link = ThemeHelper::createGoogleCalendarInsertUri($title, $details, $location, $startDate, $finishDate);
         }
-        $vars["google_calendar_link"] = check_plain($link);
+        $vars["google_calendar_link"] = $link;
     }
     
     /**

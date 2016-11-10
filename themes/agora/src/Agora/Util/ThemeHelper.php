@@ -9,6 +9,53 @@ namespace Agora\Util;
 
 class ThemeHelper
 {
+    
+    /**
+     * @param string $title
+     * @param string $details
+     * @param string $location
+     * @param \DateTime $startDate
+     * @param \DateTime $finishDate
+     *
+     * @return string
+     */
+    public static function createGoogleCalendarInsertUri($title, $details, $location, $startDate, $finishDate)
+    {
+        $path = 'https://www.google.com/calendar/render';
+    
+        // Location (normally location will come from textarea with addess on multiple lines)
+        $location = str_replace("\n", " ", $location);
+        
+        //Dates - Format: dates=YYYYMMDDToHHMMSSZ/YYYYMMDDToHHMMSSZ
+        $timeZoneUTC = new \DateTimeZone('UTC');
+        $startDateUTC = clone $startDate;
+        $startDateUTC->setTimezone($timeZoneUTC);
+        $finishDateUTC = clone $finishDate;
+        $finishDateUTC->setTimezone($timeZoneUTC);
+        $startDateStr = $startDateUTC->format("Ymd") . 'T' . $startDateUTC->format("His") . 'Z';
+        $finishDateStr = $finishDateUTC->format("Ymd") . 'T' . $finishDateUTC->format("His") . 'Z';
+        $dates = $startDateStr . '/' . $finishDateStr;
+        
+        $options = [
+            'absolute' => true,
+            'external' => true,
+            'query'    => [
+                'action'   => 'TEMPLATE',
+                'text'     => $title,
+                'details'  => $details,
+                'location' => $location,
+                'dates'    => $dates,
+                'trp'      => 'false',
+                'sf'       => 'true',
+                'output'   => 'xml',
+            ],
+        ];
+        
+        $answer = check_plain(url($path, $options));
+
+        return $answer;
+    }
+    
     /**
      * @return string
      */

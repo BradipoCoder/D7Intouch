@@ -15,7 +15,10 @@
             <p class="breadcrumbs">
                 <b class="hidden-reg-on"><?php print $issue; ?></b>
                 <span class="hidden-xs">-  <?php print $article_title; ?></span>
-                <a href="#" class="btn btn-default btn-inner-icon visible-reg-on"><span>Add to calendar</span> <img src="<?php print AGORAPATH; ?>images/icons/arrow-right__white.svg"></a>
+                <a href="<?php print $customlink1; ?>" class="btn btn-default btn-inner-icon visible-reg-on">
+                    <span>Add to calendar</span>
+                    <img src="<?php print AGORAPATH; ?>images/icons/arrow-right__white.svg">
+                </a>
             </p>
         </div>
     </div>
