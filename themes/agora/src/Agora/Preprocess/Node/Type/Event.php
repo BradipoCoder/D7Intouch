@@ -8,6 +8,7 @@
 namespace Agora\Preprocess\Node\Type;
 
 use Mekit\Drupal7\HookInterface;
+use Stringy\StaticStringy;
 
 class Event implements HookInterface
 {
@@ -31,20 +32,71 @@ class Event implements HookInterface
      *      action=TEMPLATE
      *      &text=Your+Event+Name
      *      &dates=20140127T224000Z/20140320T221500Z
-     *      &details=For+details,+link+here:+http://www.example.com&location=Waldorf+Astoria,+301+Park+Ave+,+New+York,+NY+10022
+     *      &details=For+details,+link+here:+http://www.example.com
+     *      &location=Waldorf+Astoria,+301+Park+Ave+,+New+York,+NY+10022
      *      &sf=true
      *      &output=xml
+     *
+     * @see: http://stackoverflow.com/questions/10488831/link-to-add-to-google-calendar
+     * @see: http://stackoverflow.com/questions/22757908/google-calendar-render-action-template-parameter-documentation
      *
      * @param array $vars
      */
     private static function addGoogleCalendarLink(&$vars)
     {
-        $path = 'https://www.google.com/calendar/render';
-        $options = [
-            'absolute' => true,
+        $link = "";
+        if(isset($vars['field_event_date'][0]['value']) && isset($vars['field_event_date'][0]['value2']))
+        {
+            $path = 'https://www.google.com/calendar/render';
             
-        ];
-        $link = url($path, $options);
+            // Title
+            $eventTitle = $vars["title"];
+            
+            // Details
+            $details = '';
+            //$details = 'Event link: ' . url('node/' . $vars["nid"], ['absolute' => true]);
+            
+            // Location
+            $location = "";
+            if(isset($vars['field_event_location'][0]['value']))
+            {
+                $location = $vars['field_event_location'][0]['value'];
+                $location = str_replace("\n", " ", $location);
+            }
+    
+            //Dates - Format: dates=YYYYMMDDToHHMMSSZ/YYYYMMDDToHHMMSSZ
+            //dpm($vars['field_event_date'][0], "FED");
+            $timeZone = new \DateTimeZone($vars['field_event_date'][0]['timezone']);
+            $startDate = new \DateTime($vars['field_event_date'][0]['value'], $timeZone);
+            $finishDate = new \DateTime($vars['field_event_date'][0]['value2'], $timeZone);
+            
+            $timeZoneUTC = new \DateTimeZone('UTC');
+            $startDateUTC = clone $startDate;
+            $startDateUTC->setTimezone($timeZoneUTC);
+            $finishDateUTC = clone $finishDate;
+            $finishDateUTC->setTimezone($timeZoneUTC);
+            
+            $startDateStr = $startDateUTC->format("Ymd") . 'T' . $startDateUTC->format("His") . 'Z';
+            $finishDateStr = $finishDateUTC->format("Ymd") . 'T' . $finishDateUTC->format("His") . 'Z';
+            $dates = $startDateStr . '/' . $finishDateStr;
+            
+                
+            $options = [
+                'absolute' => true,
+                'external' => true,
+                'query'    => [
+                    'action'   => 'TEMPLATE',
+                    'text'     => $eventTitle,
+                    'details'  => $details,
+                    'location' => $location,
+                    'dates'    => $dates,
+                    'trp'      => 'false',
+                    'sf'       => 'true',
+                    'output'   => 'xml',
+                ],
+            ];
+            $link = url($path, $options);
+        }
         $vars["google_calendar_link"] = check_plain($link);
     }
     
