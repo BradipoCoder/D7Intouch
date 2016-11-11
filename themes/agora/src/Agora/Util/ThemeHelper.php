@@ -7,6 +7,11 @@
 
 namespace Agora\Util;
 
+/**
+ * Class ThemeHelper
+ *
+ * @package Agora\Util
+ */
 class ThemeHelper
 {
     
