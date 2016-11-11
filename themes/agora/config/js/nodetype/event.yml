@@ -1,0 +1,7 @@
+js:
+  sites/agora/themes/agora/agora/scripts/main.js:
+    weight: -50
+  sites/agora/themes/agora/agora/scripts/pages/articles.js:
+    weight: -50
+  sites/agora/themes/agora/agora/scripts/pages/article-event.js:
+    weight: -50
