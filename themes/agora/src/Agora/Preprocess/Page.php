@@ -67,9 +67,12 @@ class Page implements HookInterface
     
                         // Dates
                         $timeZone = new \DateTimeZone($node->field_event_date[LANGUAGE_NONE][0]['timezone']);
-                        $startDate = new \DateTime($node->field_event_date[LANGUAGE_NONE][0]['value'], $timeZone);
-                        $finishDate = new \DateTime($node->field_event_date[LANGUAGE_NONE][0]['value2'], $timeZone);
-    
+//                        $startDate = new \DateTime($node->field_event_date[LANGUAGE_NONE][0]['value'], $timeZone);
+//                        $finishDate = new \DateTime($node->field_event_date[LANGUAGE_NONE][0]['value2'], $timeZone);
+                        $startDate = new \DateTime($node->field_event_date[LANGUAGE_NONE][0]['value']);
+                        $startDate->setTimezone($timeZone);
+                        $finishDate = new \DateTime($node->field_event_date[LANGUAGE_NONE][0]['value2']);
+                        $finishDate->setTimezone($timeZone);
                         $customlink1 = ThemeHelper::createGoogleCalendarInsertUri($title, $details, $location, $startDate, $finishDate);
                     }
                 }

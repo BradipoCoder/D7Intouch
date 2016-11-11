@@ -69,8 +69,10 @@ class Event implements HookInterface
     
             // Dates
             $timeZone = new \DateTimeZone($vars['field_event_date'][0]['timezone']);
-            $startDate = new \DateTime($vars['field_event_date'][0]['value'], $timeZone);
-            $finishDate = new \DateTime($vars['field_event_date'][0]['value2'], $timeZone);
+            $startDate = new \DateTime($vars['field_event_date'][0]['value']);
+            $startDate->setTimezone($timeZone);
+            $finishDate = new \DateTime($vars['field_event_date'][0]['value2']);
+            $finishDate->setTimezone($timeZone);
             
             $link = ThemeHelper::createGoogleCalendarInsertUri($title, $details, $location, $startDate, $finishDate);
         }
