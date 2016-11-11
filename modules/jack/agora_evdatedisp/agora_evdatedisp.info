@@ -1,0 +1,4 @@
+name = Agora Event Date Display
+description = Custom date display for Agora
+core = 7.x
+package = Agora

@@ -1,0 +1,6 @@
+/* FOR TESTING ONLY */
+
+.date-display-range span {
+    display: block;
+    border: 1px solid #ff0000;
+}

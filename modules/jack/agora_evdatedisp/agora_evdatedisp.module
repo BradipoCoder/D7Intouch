@@ -1,0 +1,103 @@
+<?php
+
+/**
+ * Implements hook_field_formatter_info().
+ *
+ * @return array
+ */
+function agora_evdatedisp_field_formatter_info()
+{
+    return [
+        'agora_date' => [
+            'label'         => t("Agora Event Date"),
+            'field types'   => ['date'],
+            'settings'      => [],
+        ],
+    ];
+}
+
+/**
+ * Implements hook_field_formatter_view().
+ *
+ * @param string $entity_type
+ * @param object $entity
+ * @param array $field
+ * @param array $instance
+ * @param string $langcode
+ * @param array $items
+ * @param array $display
+ *
+ * @return array
+ */
+function agora_evdatedisp_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display)
+{
+    $el = [];
+    $delta = 0;
+    $item = $items[$delta];
+    dpm($item, "I");
+    
+    $timeZone = new \DateTimeZone($item['timezone']);
+    $startDate = new \DateTime($item['value']);
+    $finishDate = new \DateTime($item['value2']);
+    $startDate->setTimezone($timeZone);
+    $finishDate->setTimezone($timeZone);
+    
+    //$dateDifferenceSeconds = abs($finishDate->getTimestamp() - $startDate->getTimestamp());
+    //dpm($dateDifferenceSeconds, "DIFF S");
+    
+    //<p>October 27th 2016<br>2pm - 6.30pm</p>
+    $dateOutputFormat = "F jS Y";
+    $timeOutputFormat = "g.ia";
+    
+    $startDateStr = $startDate->format($dateOutputFormat);
+    $startTimeStr = $startDate->format($timeOutputFormat);
+    $finishDateStr = $finishDate->format($dateOutputFormat);
+    $finishTimeStr = $finishDate->format($timeOutputFormat);
+    
+    $isSameDate = $startDateStr === $finishDateStr;
+    
+    $dateDisplay = [
+        '#prefix' => '<span class="date-display-range'.($isSameDate ? ' same-date' : '').'">',
+        '#suffix' => '</span>',
+    ];
+    
+    $dateDisplay['start_date'] = [
+        '#prefix' => '<span class="event-date event-date-start">',
+        '#suffix' => '</span>',
+        '#markup' => $startDateStr,
+    ];
+    
+    $dateDisplay['start_time'] = [
+        '#prefix' => '<span class="event-time event-time-start">',
+        '#suffix' => '</span>',
+        '#markup' => $startTimeStr,
+    ];
+    
+    $dateDisplay['connector'] = [
+        '#prefix' => '<span class="event-date-connector">',
+        '#suffix' => '</span>',
+        '#markup' => '-',
+    ];
+    
+    $dateDisplay['end_date'] = [
+        '#prefix' => '<span class="event-date event-date-finish">',
+        '#suffix' => '</span>',
+        '#markup' => $finishDateStr,
+    ];
+    
+    $dateDisplay['end_time'] = [
+        '#prefix' => '<span class="event-time event-time-finish">',
+        '#suffix' => '</span>',
+        '#markup' => $finishTimeStr,
+    ];
+    
+    $dateDisplay['timezone'] = [
+        '#prefix' => '<span class="event-timezone">',
+        '#suffix' => '</span>',
+        '#markup' => $timeZone->getName(),
+    ];
+    
+    $el[$delta] = $dateDisplay;
+    
+    return $el;
+}

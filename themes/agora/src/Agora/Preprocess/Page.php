@@ -10,6 +10,11 @@ namespace Agora\Preprocess;
 use Agora\Util\ThemeHelper;
 use Mekit\Drupal7\HookInterface;
 
+/**
+ * Class Page
+ *
+ * @package Agora\Preprocess
+ */
 class Page implements HookInterface
 {
     /**
@@ -23,6 +28,9 @@ class Page implements HookInterface
         //dpm($vars["page"], "PAGE VARS");
     }
     
+    /**
+     * @param array$vars
+     */
     private static function generateArticleNavbar(&$vars)
     {
         if(isset($vars["node"]))
@@ -58,7 +66,6 @@ class Page implements HookInterface
                         }
     
                         // Dates
-                        dpm($node->field_event_date[LANGUAGE_NONE][0]);
                         $timeZone = new \DateTimeZone($node->field_event_date[LANGUAGE_NONE][0]['timezone']);
                         $startDate = new \DateTime($node->field_event_date[LANGUAGE_NONE][0]['value'], $timeZone);
                         $finishDate = new \DateTime($node->field_event_date[LANGUAGE_NONE][0]['value2'], $timeZone);
@@ -66,7 +73,6 @@ class Page implements HookInterface
                         $customlink1 = ThemeHelper::createGoogleCalendarInsertUri($title, $details, $location, $startDate, $finishDate);
                     }
                 }
-                
     
                 $title = $node->title_field[LANGUAGE_NONE][0]['value'];
                 
@@ -106,6 +112,9 @@ class Page implements HookInterface
         }
     }
     
+    /**
+     * @param array $vars
+     */
     private static function killNoContentSystemMessage(&$vars)
     {
         if (drupal_is_front_page()) {

@@ -11,6 +11,11 @@ use Agora\Util\ThemeHelper;
 use Mekit\Drupal7\HookInterface;
 use Stringy\StaticStringy;
 
+/**
+ * Class Event
+ *
+ * @package Agora\Preprocess\Node\Type
+ */
 class Event implements HookInterface
 {
     /**
@@ -20,27 +25,27 @@ class Event implements HookInterface
     {
         self::setupArticleClasses($vars);
         self::addIssueFieldsToContent($vars);
-        self::fixFieldEventLocation($vars);
         self::addGoogleCalendarLink($vars);
+        self::fixFieldEventLocation($vars);
+        self::formatEventDate($vars);
         
         //dpm($vars, "EVENT");
     }
     
+    /**
+     * @param array $vars
+     */
+    private static function formatEventDate(&$vars)
+    {
+        if(isset($vars['field_event_date']))
+        {
+            $FED = $vars['field_event_date'][0];
+            //dpm($FED, "FED");
+            //dpm($vars['content']['field_event_date'], "C-FED");
+        }
+    }
     
     /**
-     * create a link like this:
-     * https://www.google.com/calendar/render?
-     *      action=TEMPLATE
-     *      &text=Your+Event+Name
-     *      &dates=20140127T224000Z/20140320T221500Z
-     *      &details=For+details,+link+here:+http://www.example.com
-     *      &location=Waldorf+Astoria,+301+Park+Ave+,+New+York,+NY+10022
-     *      &sf=true
-     *      &output=xml
-     *
-     * @see: http://stackoverflow.com/questions/10488831/link-to-add-to-google-calendar
-     * @see: http://stackoverflow.com/questions/22757908/google-calendar-render-action-template-parameter-documentation
-     *
      * @param array $vars
      */
     private static function addGoogleCalendarLink(&$vars)
