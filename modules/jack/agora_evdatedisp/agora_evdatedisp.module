@@ -34,7 +34,7 @@ function agora_evdatedisp_field_formatter_view($entity_type, $entity, $field, $i
     $el = [];
     $delta = 0;
     $item = $items[$delta];
-    dpm($item, "I");
+    //dpm($item, "I");
     
     $timeZone = new \DateTimeZone($item['timezone']);
     $startDate = new \DateTime($item['value']);
