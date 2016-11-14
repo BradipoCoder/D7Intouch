@@ -1,0 +1,4 @@
+name = Agora Custom View Modes
+description = Custom view modes for issues and articles
+core = 7.x
+package = Agora

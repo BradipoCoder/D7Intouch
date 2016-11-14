@@ -1,0 +1,15 @@
+<?php
+
+//Add more view modes for content type displays
+function agora_viewmodes_entity_info_alter(&$entity_info)
+{
+    $entity_info['node']['view modes']['front_mode_1'] = [
+        'label'           => t('Front - Mode 1'),
+        'custom settings' => true,
+    ];
+    
+    $entity_info['node']['view modes']['front_mode_2'] = [
+        'label'           => t('Front - Mode 2'),
+        'custom settings' => true,
+    ];
+}

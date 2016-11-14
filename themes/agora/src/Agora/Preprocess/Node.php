@@ -35,14 +35,17 @@ class Node implements HookInterface
      */
     private static function addEditLink(&$vars)
     {
-        if(user_access('administer nodes')) {
-            $node = $vars['node'];
-            $vars['content']['admin-buttons'] = array(
-                '#prefix' => '<p>',
-                '#suffix' => '</p>',
-                '#markup' => l('Edit', 'node/' . $node->nid . '/edit'),
-                '#weight' => -1,
-            );
+        if($vars['view_mode'] == 'full')
+        {
+            if(user_access('administer nodes')) {
+                $node = $vars['node'];
+                $vars['content']['admin-buttons'] = array(
+                    '#prefix' => '<p>',
+                    '#suffix' => '</p>',
+                    '#markup' => l('Edit', 'node/' . $node->nid . '/edit'),
+                    '#weight' => -1,
+                );
+            }
         }
     }
     

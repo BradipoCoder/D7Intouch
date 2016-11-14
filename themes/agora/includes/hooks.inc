@@ -25,6 +25,10 @@ function agora_preprocess_html(&$vars)
 function agora_preprocess_page(&$vars)
 {
     HookExecutor::executeGenericHook(['preprocess', 'page'], [&$vars]);
+    if(drupal_is_front_page())
+    {
+        HookExecutor::executeGenericHook(['preprocess', 'front'], [&$vars]);
+    }
 }
 
 /**

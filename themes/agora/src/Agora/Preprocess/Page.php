@@ -22,9 +22,7 @@ class Page implements HookInterface
      */
     public static function execute(&$vars)
     {
-        self::killNoContentSystemMessage($vars);
         self::generateArticleNavbar($vars);
-        
         //dpm($vars["page"], "PAGE VARS");
     }
     
@@ -114,17 +112,4 @@ class Page implements HookInterface
             }
         }
     }
-    
-    /**
-     * @param array $vars
-     */
-    private static function killNoContentSystemMessage(&$vars)
-    {
-        if (drupal_is_front_page()) {
-            if(isset($vars['page']['content']['system_main']['default_message'])) {
-                unset($vars['page']['content']['system_main']['default_message']);
-            }
-        }
-    }
-
 }
