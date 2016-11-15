@@ -45,7 +45,6 @@ class Issue implements HookInterface
     
     /**
      * @todo: move this in Helper class
-     * @todo: use multiple
      *
      * Using same view_mode for children as the issue is view as
      *

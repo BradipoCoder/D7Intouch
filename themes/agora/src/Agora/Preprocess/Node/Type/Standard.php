@@ -90,6 +90,10 @@ class Standard implements HookInterface
                     }
                 }
                 
+                if($vars["view_mode"] == 'front_mode_2'){
+                    $vars["front_mode_article_container_classes"] = 'col-xs-12 col-sm-4';
+                }
+                
                 //Article Category Name
                 $catName = ThemeHelper::getArticleCategoryNameFromNode($vars["node"]);
                 if($catName)

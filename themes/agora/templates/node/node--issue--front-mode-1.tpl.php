@@ -9,11 +9,9 @@
  *      <?php print render($content["nome_campo"]); ?>
  */
 
-
 //dpm($content["field_video"]);
 ?>
 <?php //dsm("FIELD NAMES: " . json_encode(array_keys($content))); ?>
-
 
 <section id="node-<?php print $node->nid; ?>" class="<?php print $classes; ?>">
     <header class="issue-header">
@@ -46,14 +44,4 @@
             </div>
         </div>
     </div>
-    
 </section>
-
-
-    
-    
-
-    
-    
-    
-
