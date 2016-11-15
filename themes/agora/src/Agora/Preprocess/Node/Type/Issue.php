@@ -45,6 +45,10 @@ class Issue implements HookInterface
     
     /**
      * @todo: move this in Helper class
+     * @todo: use multiple
+     *
+     * Using same view_mode for children as the issue is view as
+     *
      * @param \stdClass $issue
      * @param string $viewMode
      *
@@ -53,12 +57,15 @@ class Issue implements HookInterface
     private static function getNodesForIssue($issue, $viewMode)
     {
         $children = [];
-        
         $nids = ThemeHelper::NHGetChildrenNids($issue->nid);
-        foreach ($nids as $nid) {
-            $childNode = node_load($nid);
-            $childNodeView = node_view($childNode, $viewMode);
-            array_push($children, $childNodeView);
+        if(count($nids))
+        {
+            $nodes = node_load_multiple($nids);
+            $issueViewIndex = 1;
+            foreach($nodes as &$node) {
+                $node->issue_view_index = $issueViewIndex++;
+            }
+            $children = node_view_multiple($nodes, $viewMode);
         }
         
         return $children;

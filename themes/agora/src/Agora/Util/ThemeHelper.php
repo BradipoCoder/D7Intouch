@@ -7,6 +7,8 @@
 
 namespace Agora\Util;
 
+use Stringy\StaticStringy;
+
 /**
  * Class ThemeHelper
  *
@@ -41,6 +43,31 @@ class ThemeHelper
         }
         
         return $nids;
+    }
+    
+    /**
+     * @param \stdClass $node
+     * @param bool $underscored
+     * @return string
+     */
+    public static function getArticleCategoryNameFromNode($node, $underscored = true)
+    {
+        $answer = '';
+        if(isset($node->field_category[LANGUAGE_NONE][0]['taxonomy_term']))
+        {
+            /** @var \stdClass $TT */
+            $TT = $node->field_category[LANGUAGE_NONE][0]['taxonomy_term'];
+            if(isset($TT->name) && !empty($TT->name))
+            {
+                $answer = $TT->name;
+                if($underscored)
+                {
+                    $answer = StaticStringy::underscored($answer);
+                }
+            }
+        }
+    
+        return $answer;
     }
     
     /**

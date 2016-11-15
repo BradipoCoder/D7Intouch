@@ -7,6 +7,7 @@
 
 namespace Agora\Preprocess;
 
+use Agora\Util\ThemeHelper;
 use Mekit\Drupal7\HookInterface;
 use Stringy\StaticStringy;
 
@@ -30,15 +31,10 @@ class Html implements HookInterface
         if($node)
         {
             //Article Category Name
-            if(isset($node->field_category[LANGUAGE_NONE][0]['taxonomy_term']))
+            $catName = ThemeHelper::getArticleCategoryNameFromNode($node);
+            if($catName)
             {
-                /** @var \stdClass $TT */
-                $TT = $node->field_category[LANGUAGE_NONE][0]['taxonomy_term'];
-                if(isset($TT->name) && !empty($TT->name))
-                {
-                    
-                    $customClasses[] = 'article-category-' . StaticStringy::underscored($TT->name);
-                }
+                $customClasses[] = 'article-category-' . $catName;
             }
         }
         if(count($customClasses))

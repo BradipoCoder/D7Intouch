@@ -19,7 +19,7 @@ class Node implements HookInterface
         self::setThemeHookSuggestions($vars);
         self::setContainerDivClasses($vars);
         self::addEditLink($vars);
-        //dpm($vars['theme_hook_suggestions'], "NODE VARS");
+        //dpm($vars, "NODE VARS");
     }
     
     /**

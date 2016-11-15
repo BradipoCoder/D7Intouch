@@ -7,6 +7,7 @@
 
 namespace Agora\Preprocess\Node\Type;
 
+use Agora\Util\ThemeHelper;
 use Mekit\Drupal7\HookInterface;
 
 /**
@@ -24,9 +25,7 @@ class Long implements HookInterface
         self::setupArticleClasses($vars);
         self::addIssueFieldsToContent($vars);
         self::addCoverUrl($vars);
-        //dpm($vars, "LONG");
-        
-        
+        //dpm($vars, "NODE-LONG");
         
     }
     
@@ -35,11 +34,13 @@ class Long implements HookInterface
      */
     private static function addCoverUrl(&$vars)
     {
-        $coverUrl= '';
-        if(isset($vars['content']['field_image'][0]['#item']['uri']) && isset($vars['content']['field_image'][0]['#image_style']))
+        $coverUrl = '';
+        if (isset($vars['content']['field_image'][0]['#item']['uri'])
+            && isset($vars['content']['field_image'][0]['#image_style'])
+        )
         {
             $coverUrl = image_style_url($vars['content']['field_image'][0]['#image_style'],
-                                       $vars['content']['field_image'][0]['#item']['uri']);
+                                        $vars['content']['field_image'][0]['#item']['uri']);
         }
         $vars["content"]["cover_url"] = [
             '#markup' => $coverUrl,
@@ -53,13 +54,13 @@ class Long implements HookInterface
     {
         /** @var \stdClass $node */
         $node = $vars["node"];
-    
+        
         $parentNid = false;
-        if(isset($node->nodehierarchy_menu_links[0]['pnid']))
+        if (isset($node->nodehierarchy_menu_links[0]['pnid']))
         {
             $parentNid = $node->nodehierarchy_menu_links[0]['pnid'];
             $parentNode = node_load($parentNid);
-            if($parentNode)
+            if ($parentNode)
             {
                 $vars["content"]["issue_number"] = field_view_field('node', $parentNode, 'field_pubnumber', 'full');
             }
@@ -71,7 +72,39 @@ class Long implements HookInterface
      */
     private static function setupArticleClasses(&$vars)
     {
-        $vars["classes_array"][] = 'magazine-article';
+        switch ($vars["view_mode"])
+        {
+            case "full":
+                $vars["classes_array"][] = 'magazine-article';
+                break;
+            case "teaser":
+                //$vars["classes_array"][] = 'magazine-article';
+                break;
+            case "front_mode_1":
+            case "front_mode_2":
+                $vars["classes_array"][] = 'article-teaser';
+                $vars["front_mode_article_container_classes"] = 'col-xs-12 col-sm-6';
+                
+                //Highlight (exists only in front_mode_1) - first node only
+                if ($vars["view_mode"] == 'front_mode_1')
+                {
+                    if (isset($vars["node"]->issue_view_index) && $vars["node"]->issue_view_index == 1)
+                    {
+                        $vars["classes_array"][] = 'article-teaser--highlight';
+                        $vars["front_mode_article_container_classes"] = 'col-xs-12';
+                    }
+                }
+                
+                //Article Category Name
+                $catName = ThemeHelper::getArticleCategoryNameFromNode($vars["node"]);
+                if ($catName)
+                {
+                    $vars["classes_array"][] = 'article-category-' . $catName;
+                }
+                break;
+            default:
+                //$vars["classes_array"][] = 'magazine-article';
+        }
     }
-
+    
 }
