@@ -16,6 +16,34 @@ class ThemeHelper
 {
     
     /**
+     * Get the children of the given node.
+     *
+     * @param string $pnid
+     * @param int $limit
+     *
+     * @return array
+     *
+     */
+    public static function NHGetChildrenNids($pnid, $limit = 0)
+    {
+        $nids = [];
+        
+        $query = db_select('node', 'n');
+        $query->join('nodehierarchy_menu_links', 'nhml', 'n.nid = nhml.nid');
+        $query->join('menu_links', 'ml', 'nhml.mlid = ml.mlid');
+        $query->join('nodehierarchy_menu_links', 'nhp', 'ml.plid = nhp.mlid');
+        $query->fields('n', ['nid']);
+        $query->condition('nhp.nid', $pnid, '=');
+        
+        $result = $query->execute();
+        foreach ($result as $item) {
+            $nids[] = $item->nid;
+        }
+        
+        return $nids;
+    }
+    
+    /**
      * create a link like this:
      * https://www.google.com/calendar/render?
      *      action=TEMPLATE
@@ -29,9 +57,9 @@ class ThemeHelper
      * @see: http://stackoverflow.com/questions/10488831/link-to-add-to-google-calendar
      * @see: http://stackoverflow.com/questions/22757908/google-calendar-render-action-template-parameter-documentation
      *
-     * @param string $title
-     * @param string $details
-     * @param string $location
+     * @param string    $title
+     * @param string    $details
+     * @param string    $location
      * @param \DateTime $startDate
      * @param \DateTime $finishDate
      *
@@ -40,7 +68,7 @@ class ThemeHelper
     public static function createGoogleCalendarInsertUri($title, $details, $location, $startDate, $finishDate)
     {
         $path = 'https://www.google.com/calendar/render';
-    
+        
         // Location (normally location will come from textarea with addess on multiple lines)
         $location = str_replace("\n", " ", $location);
         
@@ -70,7 +98,7 @@ class ThemeHelper
         ];
         
         $answer = check_plain(url($path, $options));
-
+        
         return $answer;
     }
     
@@ -86,7 +114,7 @@ class ThemeHelper
      * Gets a view by name and display
      *
      * @param string $view_name
-     * @param string$view_display
+     * @param string $view_display
      *
      * @return bool|string|void
      */
@@ -94,7 +122,8 @@ class ThemeHelper
     {
         $answer = '';
         $viewResults = views_get_view_result($view_name, $view_display);
-        if (count($viewResults)){
+        if (count($viewResults))
+        {
             $answer = views_embed_view($view_name, $view_display);
         }
         

@@ -38,25 +38,15 @@ class Front implements HookInterface
             '#prefix' => '<div class="latest-issues-container">',
             '#suffix' => '</div>',
             'latest-issue' => [
-                '#prefix' => '<section class="single-issue latest-issue">',
-                '#suffix' => '</section>',
                 '#markup' => ThemeHelper::getView("front_latest_issue", "block"),
             ],
             'past-issue' => [
-                '#prefix' => '<section class="single-issue">',
-                '#suffix' => '</section>',
                 '#markup' => ThemeHelper::getView("front_past_issue", "block"),
             ],
         ];
         
-        
-        
         $vars['page']['content']['main'] = $content;
     }
-    
-    
-    
-    
     
     /**
      * @param array $vars

@@ -48,6 +48,13 @@ class Javascript implements HookInterface
         // Site wide config
         $config = self::getParsedConfig($baseConfigDir . 'site.yml');
         $js = array_merge($js, $config);
+        
+        // Special Front page config
+        if(drupal_is_front_page())
+        {
+            $config = self::getParsedConfig($baseConfigDir . 'front.yml');
+            $js = array_merge($js, $config);
+        }
 
         //Content type config
         if($nodeType)
