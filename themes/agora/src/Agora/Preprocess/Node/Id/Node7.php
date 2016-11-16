@@ -11,7 +11,7 @@ namespace Agora\Preprocess\Node\Id;
 use Mekit\Drupal7\HookInterface;
 
 /**
- * Blog main page
+ * Node 7
  *
  * Class Node7
  * @package Mekit\Drupal7\Preprocess\Node\Id
@@ -23,6 +23,6 @@ class Node7 implements HookInterface
      */
     public static function execute(&$vars)
     {
-        dsm("This is node 7!");
+        //dsm("This is node 7!");
     }
 }

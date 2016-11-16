@@ -123,13 +123,23 @@ class Issue implements HookInterface
     private static function setupIssueClasses(&$vars)
     {
         $vars["classes_array"] = [];
-        if(in_array($vars["view_mode"], ['front_mode_1','front_mode_2']))
+    
+        switch ($vars["view_mode"])
         {
-            $vars["classes_array"][] = 'single-issue';
-            if($vars["view_mode"] == 'front_mode_1')
-            {
+            case "front_mode_1":
+                $vars["classes_array"][] = 'single-issue';
                 $vars["classes_array"][] = 'lastest-issue';
-            }
+                break;
+            case "front_mode_2":
+                $vars["classes_array"][] = 'single-issue';
+                break;
+            case "teaser":
+                $vars["classes_array"][] = 'single-issue-teaser';
+                //past-issues-container dark-bg js-to-show
+                break;
+            case "default":
+                //$vars["classes_array"][] = 'x';
+                break;
         }
     }
 }
