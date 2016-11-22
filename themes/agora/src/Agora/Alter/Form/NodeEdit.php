@@ -23,6 +23,8 @@ class NodeEdit implements HookInterface
     public static function execute(&$form, $form_state)
     {
         self::limitAccess($form);
+        
+        //dpm($form, "NODE-EDIT FORM");
     }
 
     /**

@@ -1,0 +1,4 @@
+name = Agora Node Edit Form Auto
+description = Automatic values for Agora fields
+core = 7.x
+package = Agora
