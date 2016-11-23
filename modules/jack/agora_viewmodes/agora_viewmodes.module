@@ -12,4 +12,9 @@ function agora_viewmodes_entity_info_alter(&$entity_info)
         'label'           => t('Front - Mode 2'),
         'custom settings' => true,
     ];
+    
+    $entity_info['node']['view modes']['navbar'] = [
+        'label'           => t('Navbar'),
+        'custom settings' => true,
+    ];
 }

@@ -5,16 +5,23 @@
  */
 function agoranav_theme()
 {
-    //$themePath = drupal_get_path('theme', $GLOBALS['theme']);
     return [
-        'agoranav' => [
-            'template' =>  'agoranav',
-            'pattern'   => 'agoranav__',
+        'agoranav_article' => [
+            'template' =>  'agoranav_article',
+            'pattern'   => 'agoranav_article__',
             'variables' => [
                 'backlink' =>       NULL,
                 'issue' =>          NULL,
                 'article_title' =>  NULL,
                 'customlink1' =>    NULL,
+            ],
+        ],
+        'agoranav_generic' => [
+            'template' =>  'agoranav_generic',
+            'pattern'   => 'agoranav_generic__',
+            'variables' => [
+                'pagevars' =>       NULL,
+                'settings' =>       NULL,
             ],
         ],
     ];
@@ -23,20 +30,31 @@ function agoranav_theme()
 /**
  * @param array $vars
  */
-function agoranav_preprocess_agoranav(&$vars)
+function agoranav_preprocess_agoranav_generic(&$vars)
 {
     $obj = menu_get_object();
     if($obj && is_object($obj))
     {
-        //dpm($obj, "OBJ");
-        if(isset($obj->type))
-        {
-            $vars['theme_hook_suggestions'][] = 'agoranav__' . $obj->type;
-        }
         if(isset($obj->nid))
         {
-            $vars['theme_hook_suggestions'][] = 'agoranav__' . $obj->nid;
+            $vars['theme_hook_suggestions'][] = 'agoranav_generic__' . $obj->nid;
         }
     }
-    //dpm($vars, "AGORANAV");
+    //dpm($vars['theme_hook_suggestions'], "AGORANAV-GENERIC");
+}
+
+/**
+ * @param array $vars
+ */
+function agoranav_preprocess_agoranav_article(&$vars)
+{
+    $obj = menu_get_object();
+    if($obj && is_object($obj))
+    {
+        if(isset($obj->type))
+        {
+            $vars['theme_hook_suggestions'][] = 'agoranav_article__' . $obj->type;
+        }
+    }
+    //dpm($vars['theme_hook_suggestions'], "AGORANAV-ARTICLE");
 }

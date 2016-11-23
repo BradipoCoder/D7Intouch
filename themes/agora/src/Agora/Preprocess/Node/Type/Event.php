@@ -143,6 +143,9 @@ class Event implements HookInterface
      */
     private static function setupArticleClasses(&$vars)
     {
+        //Article Category Name
+        $catName = ThemeHelper::getArticleCategoryNameFromNode($vars["node"]);
+        
         switch ($vars["view_mode"])
         {
             case "full":
@@ -150,6 +153,13 @@ class Event implements HookInterface
                 break;
             case "teaser":
                 //$vars["classes_array"][] = 'magazine-article';
+                break;
+            case "navbar":
+                //class="article-teaser article-category-business active"
+                $vars["classes_array"] = [
+                    "article-teaser",
+                    "article-category-" . $catName,
+                ];
                 break;
             case "front_mode_1":
             case "front_mode_2":
@@ -170,8 +180,6 @@ class Event implements HookInterface
                     $vars["front_mode_article_container_classes"] = 'col-xs-12 col-sm-4';
                 }
                 
-                //Article Category Name
-                $catName = ThemeHelper::getArticleCategoryNameFromNode($vars["node"]);
                 if ($catName)
                 {
                     $vars["classes_array"][] = 'article-category-' . $catName;

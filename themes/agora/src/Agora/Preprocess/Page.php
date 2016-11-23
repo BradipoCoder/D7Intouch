@@ -58,11 +58,13 @@ class Page implements HookInterface
      */
     private static function generateMainNavbar(&$vars)
     {
+        
         $agoraNavGen = [
-            '#theme' => 'agoranav-generic',
-            '#pagevars' => $vars,
+            '#theme' => 'agoranav_generic',
+            '#pagevars' => null,
             '#settings' => [
-                
+                'latest-articles-markup' => ThemeHelper::getView("navigation_latest_news", "block"),
+                'latest-issues-markup' => ThemeHelper::getView("navigation_last_issues", "block"),
             ],
         ];
         
@@ -139,7 +141,7 @@ class Page implements HookInterface
     
     
                 $agoraNavBar = [
-                    '#theme' => 'agoranav',
+                    '#theme' => 'agoranav_article',
                     '#backlink' => url('<front>', []),
                     '#issue' => 'ISSUE #' . $parentIssueNumber,
                     '#article_title' => $title,
