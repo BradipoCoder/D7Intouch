@@ -5,10 +5,10 @@
  */
 ?>
 
-<?php if (!empty($page['wide_top'])): ?>
-    <div class="wide-top">
-        <?php print render($page['wide_top']); ?>
-    </div>
+<?php if (!empty($page['main_header'])): ?>
+    <header class="main-header">
+        <?php print render($page['main_header']); ?>
+    </header>
 <?php endif; ?>
 
 

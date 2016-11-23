@@ -22,12 +22,57 @@ class Page implements HookInterface
      */
     public static function execute(&$vars)
     {
-        self::generateArticleNavbar($vars);
+        self::generateNavbar($vars);
+        
         //dpm($vars["page"], "PAGE VARS");
     }
     
+    
     /**
-     * @param array$vars
+     * @param array $vars
+     */
+    private static function generateNavbar(&$vars)
+    {
+        $hasNavigation = false;
+        if(isset($vars["node"]))
+        {
+            /** @var \stdClass $node */
+            $node = $vars["node"];
+            if(in_array($node->type, ["standard", "long", "event"]))
+            {
+                self::generateArticleNavbar($vars);
+                $hasNavigation = true;
+            }
+        }
+        
+        //fallback to main navigation
+        if(!$hasNavigation)
+        {
+            self::generateMainNavbar($vars);
+        }
+    }
+    
+    /**
+     * Generic navigation bar for site
+     * @param array $vars
+     */
+    private static function generateMainNavbar(&$vars)
+    {
+        $agoraNavGen = [
+            '#theme' => 'agoranav-generic',
+            '#pagevars' => $vars,
+            '#settings' => [
+                
+            ],
+        ];
+        
+        $vars['page']['main_header']['agora-main-navbar'] = $agoraNavGen;
+    }
+    
+    
+    /**
+     * Navigation bar for single article nodes
+     * @param array $vars
      */
     private static function generateArticleNavbar(&$vars)
     {
@@ -65,8 +110,8 @@ class Page implements HookInterface
     
                         // Dates
                         $timeZone = new \DateTimeZone($node->field_event_date[LANGUAGE_NONE][0]['timezone']);
-//                        $startDate = new \DateTime($node->field_event_date[LANGUAGE_NONE][0]['value'], $timeZone);
-//                        $finishDate = new \DateTime($node->field_event_date[LANGUAGE_NONE][0]['value2'], $timeZone);
+                        //$startDate = new \DateTime($node->field_event_date[LANGUAGE_NONE][0]['value'], $timeZone);
+                        //$finishDate = new \DateTime($node->field_event_date[LANGUAGE_NONE][0]['value2'], $timeZone);
                         $startDate = new \DateTime($node->field_event_date[LANGUAGE_NONE][0]['value']);
                         $startDate->setTimezone($timeZone);
                         $finishDate = new \DateTime($node->field_event_date[LANGUAGE_NONE][0]['value2']);
@@ -105,10 +150,6 @@ class Page implements HookInterface
                 }
     
                 $vars['page']['content']['navbar'] = $agoraNavBar;
-                
-                // When Article navbar is present - we remove the primary navigation
-                unset($vars['page']['wide_top']['system_main-menu']);
-                
             }
         }
     }
