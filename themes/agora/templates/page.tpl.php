@@ -6,9 +6,7 @@
 ?>
 
 <?php if (!empty($page['main_header'])): ?>
-    <header class="main-header">
-        <?php print render($page['main_header']); ?>
-    </header>
+    <?php print render($page['main_header']); ?>
 <?php endif; ?>
 
 
