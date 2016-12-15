@@ -14,11 +14,13 @@ regions[footer]             = 'Footer'
 
 ;;;;;;;;;;;;;;;;;;;;;
 ;; Stylesheets
+;; Using dynamic .less files - impl.: Agora/Alter/Css.php
 ;;;;;;;;;;;;;;;;;;;;;
-stylesheets[all][] = agora/style/style.less
 stylesheets[all][] = css/devel.css
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Javascript                                              ;;
 ;; Use configuration files for js inclusion in config/js   ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+

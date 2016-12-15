@@ -7,6 +7,7 @@
 
 namespace Agora\Alter;
 
+use Agora\Util\ThemeHelper;
 use Mekit\Drupal7\HookInterface;
 
 /**
@@ -28,14 +29,44 @@ class Css implements HookInterface
     public static function execute(&$css)
     {
         self::excludeAllNonAgoraStyleSheets($css);
+        self::addAreaCss($css);
+        
+        //dpm($css, "CSS-Final");
     }
     
     /**
+     * Compiles area specific less files into css and adds them to $css
+     * @param $css
+     */
+    protected static function addAreaCss(&$css)
+    {
+        $themePath = ThemeHelper::getCurrentThemePath();
+        $lessEntryPoint = false;
+        
+        $area = ThemeHelper::getCurrentArea();
+        if($area == ThemeHelper::AREA_AGORA)
+        {
+            $lessEntryPoint = $themePath . '/agora/style/style.less';
+        } else if($area == ThemeHelper::AREA_INTOUCH)
+        {
+            $lessEntryPoint = $themePath . '/intouch/style/style.less';
+        }
+    
+        if($lessEntryPoint)
+        {
+            $allCss = drupal_add_css($lessEntryPoint, ['group'=>100, 'every_page' => true]);
+            $css[$lessEntryPoint] = $allCss[$lessEntryPoint];
+        }
+    }
+    
+    
+    /**
+     * Remove anything that is not explicitly stated in $keep array
      * @param array $css
      */
     private static function excludeAllNonAgoraStyleSheets(&$css)
     {
-        $themePath = drupal_get_path('theme', $GLOBALS['theme']);
+        $themePath = ThemeHelper::getCurrentThemePath();
         
         //dpm($css, "CSS(BEFORE)");
         foreach ($css as $k => $v)

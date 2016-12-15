@@ -7,6 +7,7 @@
 
 namespace Agora\Alter;
 
+use Agora\Util\ThemeHelper;
 use Mekit\Drupal7\HookInterface;
 use Symfony\Component\Yaml\Parser;
 
@@ -37,7 +38,7 @@ class Javascript implements HookInterface
      */
     private static function includeJsForAgora(&$js)
     {
-        $themePath = drupal_get_path('theme', $GLOBALS['theme']);
+        $themePath = ThemeHelper::getCurrentThemePath();
         $baseConfigDir = $themePath . '/config/js/';
         /** @var \stdClass $menuItem */
         $menuItem = menu_get_object();

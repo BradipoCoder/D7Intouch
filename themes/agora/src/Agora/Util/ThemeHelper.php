@@ -16,6 +16,39 @@ use Stringy\StaticStringy;
  */
 class ThemeHelper
 {
+    const AREA_AGORA = 1;
+    const AREA_INTOUCH = 2;
+    
+    /**
+     * @var array
+     */
+    protected static $intouchNodeTypes = ['newsletter', 'nlarticle'];
+    
+    /**
+     * Decide and return what area we are currently in
+     * Reason: AREA_AGORA and AREA_INTOUCH are using completely different style.less so we must compile css
+     * and add to output dynamically. (maybe other reasons too)
+     * Decision: Always AREA_AGORA unless:
+     *      content type: newsletter|nlarticle
+     *      url/nid: boh? - tipo pagina newsletter topic??
+     * @return int
+     */
+    public static function getCurrentArea()
+    {
+        $answer = self::AREA_AGORA;
+    
+        $menuItem = menu_get_object();
+        $nodeType = isset($menuItem->type) ? $menuItem->type : false;
+        //$nodeId = isset($menuItem->nid) ? $menuItem->nid : false;
+        if(in_array($nodeType, self::$intouchNodeTypes))
+        {
+            $answer = self::AREA_INTOUCH;
+        }
+        
+        return $answer;
+    }
+    
+    
     
     /**
      * Get the children of the given node.
