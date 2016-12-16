@@ -73,7 +73,7 @@ class Long implements HookInterface
     private static function setupArticleClasses(&$vars)
     {
         //Article Category Name
-        $catName = ThemeHelper::getArticleCategoryNameFromNode($vars["node"]);
+        $catName = ThemeHelper::getArticleCategoryNameFromNode($vars["node"], 'field_category');
         
         switch ($vars["view_mode"])
         {

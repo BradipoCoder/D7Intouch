@@ -53,7 +53,7 @@ class Html implements HookInterface
         if($node)
         {
             //Article Category Name
-            $catName = ThemeHelper::getArticleCategoryNameFromNode($node);
+            $catName = ThemeHelper::getArticleCategoryNameFromNode($node, 'field_category');
             if($catName)
             {
                 $customClasses[] = 'article-category-' . $catName;

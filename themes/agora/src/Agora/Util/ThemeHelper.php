@@ -85,27 +85,35 @@ class ThemeHelper
     }
     
     /**
+     * Get name of the taxonomy term for a field in the node and return it (underscored if you want)
      * @param \stdClass $node
+     * @param string $fieldName
      * @param bool $underscored
      * @return string
      */
-    public static function getArticleCategoryNameFromNode($node, $underscored = true)
+    public static function getArticleCategoryNameFromNode($node, $fieldName, $underscored = true)
     {
         $answer = '';
-        if(isset($node->field_category[LANGUAGE_NONE][0]['taxonomy_term']))
-        {
-            /** @var \stdClass $TT */
-            $TT = $node->field_category[LANGUAGE_NONE][0]['taxonomy_term'];
-            if(isset($TT->name) && !empty($TT->name))
+        
+        if(isset($node->{$fieldName})) {
+            $field = $node->{$fieldName};
+    
+            if(isset($field[LANGUAGE_NONE][0]['taxonomy_term']))
             {
-                $answer = $TT->name;
-                if($underscored)
+                /** @var \stdClass $taxonomyTerm */
+                $taxonomyTerm = $field[LANGUAGE_NONE][0]['taxonomy_term'];
+                if(isset($taxonomyTerm->name) && !empty($taxonomyTerm->name))
                 {
-                    $answer = StaticStringy::underscored($answer);
+                    $answer = $taxonomyTerm->name;
+                    if($underscored)
+                    {
+                        $answer = transliteration_clean_filename($answer);
+                        $answer = StaticStringy::underscored($answer);
+                    }
                 }
             }
         }
-    
+
         return $answer;
     }
     

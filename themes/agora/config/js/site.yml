@@ -17,7 +17,7 @@ js:
     weight: -999
 
 
-  # FOOTER SCRIPTS - AGORA
+  # FOOTER SCRIPTS - AGORA + INTOUCH
   sites/agora/themes/agora/agora/scripts/vendor/lightgallery.min.js:
     weight: -100
   sites/agora/themes/agora/agora/scripts/vendor/lightslider.min.js:
