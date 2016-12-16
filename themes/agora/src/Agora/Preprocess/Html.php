@@ -18,14 +18,36 @@ class Html implements HookInterface
      */
     public static function execute(&$vars)
     {
-        self::addCustomBodyClasses($vars);
+        self::addArticleCategoryBodyClasses($vars);
+        self::addIntouchBodyClasses($vars);
+        
         //dpm($vars, "HTML");
     }
+    
     
     /**
      * @param array $vars
      */
-    private static function addCustomBodyClasses(&$vars) {
+    private static function addIntouchBodyClasses(&$vars)
+    {
+        if(ThemeHelper::getCurrentArea() == ThemeHelper::AREA_INTOUCH)
+        {
+            $customClasses = ['intouch'];
+            $node = self::getNodeFromHtmlVars($vars);
+            if($node && isset($node->type) && $node->type == 'nlarticle')
+            {
+                $customClasses[] = 'compressed--header';
+            }
+            
+            $vars['classes_array'] = array_merge($vars['classes_array'], $customClasses);
+        }
+    }
+    
+    
+    /**
+     * @param array $vars
+     */
+    private static function addArticleCategoryBodyClasses(&$vars) {
         $customClasses = [];
         $node = self::getNodeFromHtmlVars($vars);
         if($node)

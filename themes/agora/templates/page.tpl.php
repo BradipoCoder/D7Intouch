@@ -1,7 +1,6 @@
 <?php
 /**
- * Page
- * page.tpl.php
+ * Page GENERIC
  */
 ?>
 

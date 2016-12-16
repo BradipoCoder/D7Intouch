@@ -18,3 +18,8 @@ HookExecutor::setHooksNameSpaceRoot(ucfirst(strtolower($GLOBALS['theme'])) . '\\
  */
 defined('AGORAPATH') || define('AGORAPATH', '/' . $GLOBALS["theme_path"] . '/agora/');
 
+/**
+ * defines constant for use in templates: "/sites/agora/themes/agora/intouch/"
+ */
+defined('INTOUCHPATH') || define('INTOUCHPATH', '/' . $GLOBALS["theme_path"] . '/intouch/');
+

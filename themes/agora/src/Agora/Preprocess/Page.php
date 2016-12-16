@@ -23,7 +23,7 @@ class Page implements HookInterface
     public static function execute(&$vars)
     {
         self::setThemeHookSuggestions($vars);
-        self::generateNavbar($vars);
+        self::generateContentSpecificNavbar($vars);
         
         //dpm($vars, "PAGE VARS");
     }
@@ -32,7 +32,7 @@ class Page implements HookInterface
     /**
      * @param array $vars
      */
-    private static function generateNavbar(&$vars)
+    private static function generateContentSpecificNavbar(&$vars)
     {
         $hasNavigation = false;
         if(isset($vars["node"]))
@@ -42,6 +42,10 @@ class Page implements HookInterface
             if(in_array($node->type, ["standard", "long", "event"]))
             {
                 self::generateArticleNavbar($vars);
+                $hasNavigation = true;
+            } else if(in_array($node->type, ["nlarticle"]))
+            {
+                self::generateNewsletterArticleNavbar($vars);
                 $hasNavigation = true;
             }
         }
@@ -70,6 +74,35 @@ class Page implements HookInterface
         ];
         
         $vars['page']['main_header']['agora-main-navbar'] = $agoraNavGen;
+    }
+    
+    
+    /**
+     * Header side-bar for single newsletter article node
+     * @param array $vars
+     */
+    private static function generateNewsletterArticleNavbar(&$vars)
+    {
+        if(!isset($vars["node"]) || !in_array($vars["node"]->type, ["nlarticle"]))
+        {
+            return;
+        }
+    
+        /** @var \stdClass $node */
+        $node = $vars["node"];
+    
+        $newsletterNumber = 719;
+        $newsletterDate = 'November 17, 1633';
+        
+        $agoraNavBar = [
+            '#theme' => 'agoranav_newsletter',
+            '#number' => $newsletterNumber,
+            '#date' => $newsletterDate,
+        ];
+    
+        $vars['page']['content']['sidebar'] = $agoraNavBar;
+        
+        
     }
     
     

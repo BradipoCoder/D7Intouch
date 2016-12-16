@@ -6,6 +6,14 @@
 function agoranav_theme()
 {
     return [
+        'agoranav_newsletter' => [
+            'template' =>  'agoranav_newsletter',
+            'pattern'   => 'agoranav_newsletter__',
+            'variables' => [
+                'number' =>         NULL,
+                'date' =>           NULL,
+            ],
+        ],
         'agoranav_article' => [
             'template' =>  'agoranav_article',
             'pattern'   => 'agoranav_article__',

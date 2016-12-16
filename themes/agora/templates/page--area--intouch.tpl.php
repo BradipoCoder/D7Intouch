@@ -4,5 +4,7 @@
  */
 ?>
 
-
-<h1>INTOUCH PAGE TPL</h1>
+<div class="main-container">
+    <?php print render($page['content']['sidebar']); ?>
+    <?php print render($page['content']); ?>
+</div>
