@@ -48,7 +48,13 @@ class ThemeHelper
         return $answer;
     }
     
-    
+    /**
+     * @return string
+     */
+    public static function getCurrentAreaName()
+    {
+        return self::getCurrentArea() == self::AREA_AGORA ? 'agora' : 'intouch';
+    }
     
     /**
      * Get the children of the given node.

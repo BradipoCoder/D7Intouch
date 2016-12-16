@@ -22,9 +22,10 @@ class Page implements HookInterface
      */
     public static function execute(&$vars)
     {
+        self::setThemeHookSuggestions($vars);
         self::generateNavbar($vars);
         
-        //dpm($vars["page"], "PAGE VARS");
+        //dpm($vars, "PAGE VARS");
     }
     
     
@@ -155,4 +156,15 @@ class Page implements HookInterface
             }
         }
     }
+    
+    /**
+     * Add THS based on the area we are in
+     *
+     * @param array $vars
+     */
+    private static function setThemeHookSuggestions(&$vars)
+    {
+        $vars['theme_hook_suggestions'][] = 'page__area__' . ThemeHelper::getCurrentAreaName();
+    }
+    
 }
