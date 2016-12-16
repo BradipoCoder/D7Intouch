@@ -7,6 +7,7 @@
 
 namespace Agora\Preprocess\Entity\Type;
 
+use Agora\Util\ThemeHelper;
 use Mekit\Drupal7\HookInterface;
 
 class ParagraphsItem implements HookInterface
@@ -27,15 +28,23 @@ class ParagraphsItem implements HookInterface
     private static function setupItemClasses(&$vars)
     {
         $vars["classes_array"] = [];
-        $vars["classes_array"][] = 'article-module';
-        if(isset($vars['elements']['#bundle']))
+        
+        if(ThemeHelper::getCurrentArea() == ThemeHelper::AREA_AGORA)
         {
-            $bundleName = strtolower($vars['elements']['#bundle']);
-            $vars["classes_array"][] = 'module--' . $bundleName;
-            if($bundleName == 'imagegallery')
+            $vars["classes_array"][] = 'article-module';
+            
+            if(isset($vars['elements']['#bundle']))
             {
-                $vars["classes_array"][] = 'mobile-fullscreen';
+                $bundleName = strtolower($vars['elements']['#bundle']);
+                $vars["classes_array"][] = 'module--' . $bundleName;
+                if($bundleName == 'imagegallery')
+                {
+                    $vars["classes_array"][] = 'mobile-fullscreen';
+                }
             }
+        } else
+        {
+            //
         }
     }
     

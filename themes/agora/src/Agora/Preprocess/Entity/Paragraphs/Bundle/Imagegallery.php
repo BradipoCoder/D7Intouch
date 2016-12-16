@@ -16,7 +16,9 @@ class Imagegallery implements HookInterface
      */
     public static function execute(&$vars)
     {
+        self::setThemeHookSuggestions($vars);
         self::setupContent($vars);
+        
         //dpm($vars, "IMAGE-GALLERY");
     }
     
@@ -27,13 +29,54 @@ class Imagegallery implements HookInterface
     {
         $content = &$vars["content"];
         
-        $images = self::getGalleryImages($vars);
+        $galleryStyle = '';
+        if (isset($vars['elements']['#entity']->field_gallery_type[LANGUAGE_NONE][0]["value"]))
+        {
+            $galleryStyle = $vars['elements']['#entity']->field_gallery_type[LANGUAGE_NONE][0]["value"];
+        }
         
-        $content["image_gallery"] = [
-            '#prefix' => '<ul class="lightslider">',
-            '#suffix' => '</ul>',
-            'images'  => $images,
-        ];
+        switch($galleryStyle)
+        {
+            case "single":
+                $imageElement = $vars['elements']['#entity']->field_images[LANGUAGE_NONE][0];
+                $caption = isset($imageElement["title"]) ? $imageElement["title"] : '';
+                $content["image_gallery"] = [
+                    'image' => [
+                        '#theme' => 'image_formatter',
+                        '#image_style' => 'gallery_small',
+                        '#item' => $imageElement,
+                    ],
+                    'caption' => [
+                        '#markup' => $caption,
+                    ],
+                ];
+                break;
+            case "double":
+                $content["image_gallery"] = [
+                    
+                ];
+                break;
+            case "triple":
+                $content["image_gallery"] = [
+
+                ];
+                break;
+            case "multiple_1":
+                $images = self::getGalleryImages($vars);
+                $content["image_gallery"] = [
+                    '#prefix' => '<ul class="lightslider">',
+                    '#suffix' => '</ul>',
+                    'images'  => $images,
+                ];
+                break;
+            case "multiple_2":
+                $content["image_gallery"] = [
+    
+                ];
+                break;
+            default:
+                break;
+        }
     }
     
     /**
@@ -81,5 +124,28 @@ class Imagegallery implements HookInterface
             }
         }
         return $answer;
+    }
+    
+    /**
+     * Add THS based on the area we are in
+     *
+     * @param array $vars
+     */
+    private static function setThemeHookSuggestions(&$vars)
+    {
+    
+        if (isset($vars['elements']['#entity']->field_gallery_type[LANGUAGE_NONE][0]["value"]))
+        {
+            $galleryStyle = $vars['elements']['#entity']->field_gallery_type[LANGUAGE_NONE][0]["value"];
+    
+            $originalSuggestions = $vars['theme_hook_suggestions'];
+            $newSuggestions = [
+                'paragraphs_item',
+                'paragraphs_item__imagegallery',
+                'paragraphs_item__imagegallery__style_' . $galleryStyle,
+            ];
+    
+            $vars['theme_hook_suggestions'] = array_unique(array_merge($newSuggestions, $originalSuggestions));
+        }
     }
 }
