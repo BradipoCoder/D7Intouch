@@ -12,5 +12,6 @@
 ?>
 
 <div class="<?php print $classes; ?> mobile-fullscreen">
-    <div data-type="youtube" data-video-id="<?php print render($content["clean_video_url"]); ?>"></div>
+    <div data-type="<?php print render($content["provider_name"]); ?>" data-video-id="<?php print render
+    ($content["clean_video_url"]); ?>"></div>
 </div>

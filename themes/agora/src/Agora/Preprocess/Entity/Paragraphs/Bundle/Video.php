@@ -16,9 +16,56 @@ class Video implements HookInterface
      */
     public static function execute(&$vars)
     {
+        self::addVideoDescriptionToContent($vars);
         self::addCleanVideoUrlToContent($vars);
+        self::addPlayerMarkupToContent($vars);
+        self::addProviderNameToContent($vars);
         //dpm($vars, "VIDEO");
     }
+    
+    /**
+     * @param array $vars
+     */
+    private static function addVideoDescriptionToContent(&$vars)
+    {
+        $description = '';
+        
+        if(isset($vars["field_video"][0]["description"]))
+        {
+            $description = $vars["field_video"][0]["description"];
+        }
+
+        $vars["content"]["video_description"] = [
+            '#markup' => $description,
+        ];
+    }
+    
+    
+    /**
+     * @param array $vars
+     */
+    private static function addPlayerMarkupToContent(&$vars)
+    {
+        $playerMarkup = '';
+    
+        if(isset($vars["field_video"][0]["video_data"]))
+        {
+            $data = unserialize($vars["field_video"][0]["video_data"]);
+            if(isset($data["html"]))
+            {
+                $playerMarkup = $data["html"];
+            }
+        }
+        
+        //width="550" height="354"
+        $playerMarkup = preg_replace('# width="[0-9]*" #i', ' width="550" ', $playerMarkup);
+        $playerMarkup = preg_replace('# height="[0-9]*" #i', ' height="354" ', $playerMarkup);
+        
+        $vars["content"]["player"] = [
+            '#markup' => $playerMarkup,
+        ];
+    }
+    
     
     /**
      * @param array $vars
@@ -34,4 +81,25 @@ class Video implements HookInterface
             '#markup' => $cleanVideoUrl,
         ];
     }
+    
+    /**
+     * @param array $vars
+     */
+    private static function addProviderNameToContent(&$vars)
+    {
+        $providerName = "youtube";
+        if(isset($vars["field_video"][0]["video_data"]))
+        {
+            $data = unserialize($vars["field_video"][0]["video_data"]);
+            if(isset($data["provider_name"]))
+            {
+                $providerName = strtolower($data["provider_name"]);
+            }
+        }
+        
+        $vars["content"]["provider_name"] = [
+            '#markup' => $providerName,
+        ];
+    }
+    
 }
