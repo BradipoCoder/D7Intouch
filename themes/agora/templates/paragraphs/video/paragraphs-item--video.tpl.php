@@ -7,8 +7,6 @@
  * View mode:   any
  */
 
-//added custom $content["clean_video_url"]
-
 ?>
 
 <div class="<?php print $classes; ?> mobile-fullscreen">
