@@ -28,10 +28,37 @@
             </div>
         </div>
         <nav class="content-navigation single">
-            <?php print render($content["content-navigation"]); ?>
+            <a href="<?php print $content["content-navigation"]["previous_node_link"]; ?>" class="prev-link">
+                <span class="icon icon-chevron-left"></span> Prev<span class="hidden-xs">ious Article</span>
+            </a>
+            <a href="<?php print $content["content-navigation"]["next_node_link"]; ?>" class="next-link">
+                Next<span class="hidden-xs"> Article</span> &gt;
+            </a>
+            <div class="current-position">
+                <span class="content-navigation-title">
+                    <span class="content-navigation-title-number hidden-xs">
+                        Newsletter</span> <?php print $content["content-navigation"]["newsletter_number"]; ?>
+                </span>
+            </div>
         </nav>
         <div class="single-articles-related-wrapper">
-            <?php print render($content["content-related"]); ?>
+            <div class="single-articles-container">
+                <header class="related-articles-header">
+                    <span>Related articles: </span>
+                </header>
+                <div class="row">
+                    <div class="col-md-4">
+                        REL-1
+                    </div>
+                    <div class="col-md-4">
+                        REL-2
+                    </div>
+                    <div class="col-md-4">
+                        REL-3
+                    </div>
+                    <?php /*print render($content["content-related"]);*/ ?>
+                </div>
+            </div>
         </div>
     </div>
 </section>

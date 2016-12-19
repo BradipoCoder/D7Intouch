@@ -17,7 +17,7 @@ class Attachment implements HookInterface
     public static function execute(&$vars)
     {
         self::addDataToContent($vars);
-        dpm($vars, "ATTACHMENT");
+        //dpm($vars, "ATTACHMENT");
     }
     
     

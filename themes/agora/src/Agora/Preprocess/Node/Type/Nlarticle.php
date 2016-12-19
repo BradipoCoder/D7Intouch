@@ -7,6 +7,7 @@
 
 namespace Agora\Preprocess\Node\Type;
 
+use Agora\Util\NodeHelper;
 use Agora\Util\ThemeHelper;
 use Mekit\Drupal7\HookInterface;
 
@@ -18,9 +19,11 @@ class Nlarticle implements HookInterface
     public static function execute(&$vars)
     {
         self::setupArticleClasses($vars);
-        //self::addNewsletterFieldsToContent($vars);
         self::addContentNavigation($vars);
         self::addContentRelated($vars);
+        
+        //$vars["content"]["issue_number"] = field_view_field('node', $parentNode, 'field_pubnumber', 'full');
+        
         
         //dpm($vars["node"], "NODE-NLARTICLE");
     }
@@ -30,10 +33,50 @@ class Nlarticle implements HookInterface
      */
     private static function addContentNavigation(&$vars)
     {
+        /** @var \stdClass $currentNode */
+        $currentNode = $vars["node"];
+        $previousNode = false;
+        $nextNode = false;
+        $newsletterNumber = 0;
+        if($parentNode = NodeHelper::getParentNodeOfNodeInVars($vars))
+        {
+            $newsletterNumber = $parentNode->title;
+            //dpm($parentNode, "PN");
+            $childrenLinks = _nodehierarchy_get_children_menu_links($parentNode->nid);
+            $childrenCount = count($childrenLinks);
+            $currentNodeIndex = 0;
+            
+            /** @var \stdClass $childLink */
+            foreach($childrenLinks as $childLink)
+            {
+                if($childLink["nid"] == $currentNode->nid) {
+                    break;
+                }
+                $currentNodeIndex++;
+            }
+
+            if($childrenCount > 1) {
+                $previousNodeIndex = $currentNodeIndex >= 1 ? $currentNodeIndex - 1 : ($childrenCount-1);
+                $NHL = $childrenLinks[$previousNodeIndex];
+                $previousNode = url($NHL["link_path"]);
+                
+                
+                $nextNodeIndex = $currentNodeIndex < ($childrenCount-1) ? $currentNodeIndex + 1 : 0;
+                $NHL = $childrenLinks[$nextNodeIndex];
+                $nextNode = url($NHL["link_path"]);
+            }
+    
+            //dsm("CNT($childrenCount) - PREV($previousNodeIndex) // CURR($currentNodeIndex) // NEXT($nextNodeIndex)");
+        }
+        
+        
         $vars["content"]["content-navigation"] = [
-            '#markup' => 'NAVIGATION'
+            'previous_node_link' => $previousNode,
+            'next_node_link' => $nextNode,
+            'newsletter_number' => $newsletterNumber,
         ];
     }
+    
     
     /**
      * @param array $vars
@@ -41,30 +84,10 @@ class Nlarticle implements HookInterface
     private static function addContentRelated(&$vars)
     {
         $vars["content"]["content-related"] = [
-            '#markup' => 'RELATED'
+            '#markup' => 'RELATED',
         ];
     }
     
-    
-    /**
-     * @param array $vars
-     */
-    private static function addNewsletterFieldsToContent(&$vars)
-    {
-        /** @var \stdClass $node */
-        $node = $vars["node"];
-    
-        $parentNid = false;
-        if(isset($node->nodehierarchy_menu_links[0]['pnid']))
-        {
-            $parentNid = $node->nodehierarchy_menu_links[0]['pnid'];
-            $parentNode = node_load($parentNid);
-            if($parentNode)
-            {
-                $vars["content"]["issue_number"] = field_view_field('node', $parentNode, 'field_pubnumber', 'full');
-            }
-        }
-    }
     
     /**
      * @param array $vars
