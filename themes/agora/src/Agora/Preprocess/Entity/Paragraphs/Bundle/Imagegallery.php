@@ -28,17 +28,20 @@ class Imagegallery implements HookInterface
     private static function setupContent(&$vars)
     {
         $content = &$vars["content"];
+        $content["image_gallery"] = [];
         
         $galleryStyle = '';
         if (isset($vars['elements']['#entity']->field_gallery_type[LANGUAGE_NONE][0]["value"]))
         {
             $galleryStyle = $vars['elements']['#entity']->field_gallery_type[LANGUAGE_NONE][0]["value"];
         }
+    
+        $imageElements = $vars['elements']['#entity']->field_images[LANGUAGE_NONE];
         
         switch($galleryStyle)
         {
             case "single":
-                $imageElement = $vars['elements']['#entity']->field_images[LANGUAGE_NONE][0];
+                $imageElement = $imageElements[0];
                 $caption = isset($imageElement["title"]) ? $imageElement["title"] : '';
                 $content["image_gallery"] = [
                     'image' => [
@@ -52,26 +55,34 @@ class Imagegallery implements HookInterface
                 ];
                 break;
             case "double":
-                $content["image_gallery"] = [
-                    
-                ];
+                foreach($imageElements as $imageElement)
+                {
+                    $content["image_gallery"][] = [
+                        '#theme' => 'image_formatter',
+                        '#image_style' => 'gallery_small',
+                        '#item' => $imageElement,
+                    ];
+                }
                 break;
             case "triple":
-                $content["image_gallery"] = [
-
-                ];
+                foreach($imageElements as $imageElement)
+                {
+                    $content["image_gallery"][] = [
+                        '#theme' => 'image_formatter',
+                        '#image_style' => 'gallery_small',
+                        '#item' => $imageElement,
+                    ];
+                }
                 break;
-            case "multiple_1":
-                $images = self::getGalleryImages($vars);
+                break;
+            case "multiple_1":/* this is the style defined in newsletter */
+                $content["image_gallery"] = self::getGalleryImages_Style1($vars);
+                break;
+            case "multiple_2":/* this is the style defined in articles */
                 $content["image_gallery"] = [
                     '#prefix' => '<ul class="lightslider">',
                     '#suffix' => '</ul>',
-                    'images'  => $images,
-                ];
-                break;
-            case "multiple_2":
-                $content["image_gallery"] = [
-    
+                    'images'  => self::getGalleryImages_Style2($vars),
                 ];
                 break;
             default:
@@ -84,7 +95,47 @@ class Imagegallery implements HookInterface
      *
      * @return array
      */
-    private static function getGalleryImages(&$vars)
+    private static function getGalleryImages_Style1(&$vars)
+    {
+        $answer = [];
+        if (isset($vars['elements']['#entity']->field_images[LANGUAGE_NONE])
+            && is_array($vars['elements']['#entity']->field_images[LANGUAGE_NONE])
+            && count($vars['elements']['#entity']->field_images[LANGUAGE_NONE])
+        )
+        {
+            $imageElements = $vars['elements']['#entity']->field_images[LANGUAGE_NONE];
+            foreach($imageElements as $imageElement)
+            {
+                $img_orig_uri = $imageElement["uri"];
+                //$img_big_uri = image_style_url('gallery_big', $img_orig_uri);
+                $img_small_uri = image_style_url('gallery_small', $img_orig_uri);
+                
+                $liAttributes = [
+                    'data-thumb' => $img_small_uri,
+                ];
+                
+                $image = [
+                    '#prefix' => '<li'.drupal_attributes($liAttributes).'>',
+                    '#suffix' => '</li>',
+                    'image' => [
+                        '#theme' => 'image_formatter',
+                        '#image_style' => 'gallery_big',
+                        '#item' => $imageElement,
+                    ],
+                ];
+                
+                array_push($answer, $image);
+            }
+        }
+        return $answer;
+    }
+    
+    /**
+     * @param array $vars
+     *
+     * @return array
+     */
+    private static function getGalleryImages_Style2(&$vars)
     {
         $answer = [];
         if (isset($vars['elements']['#entity']->field_images[LANGUAGE_NONE])

@@ -5,7 +5,7 @@
  * Bundle:      imagegallery
  * Context:     any
  * View mode:   any
- * Style:       any
+ * Style:       Multiple 2 (image gallery with caption for agora articles)
  */
 
 ?>
