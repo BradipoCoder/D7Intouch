@@ -11,32 +11,13 @@ class IntouchNavHelper
 {
     
     /**
+     * @param int $limit
      * @return array
      */
-    public static function getRenderableNewsletters($limit, $currentNode)
+    public static function getRenderableNewsletters($limit)
     {
         $nodes = self::getNewsletterNodes($limit);
-        $answer = node_view_multiple($nodes, 'teaser', $limit, LANGUAGE_NONE);
-        
-        /*
-        //check if active/current node
-        foreach ($answer["nodes"] as &$el)
-        {
-            if (is_array($el))
-            {
-                $el["is_active"] = ['#markup' => ''];
-                if (isset($el["#node"]) && is_object($el["#node"]) && isset($el["#node"]->nid))
-                {
-                    if ($el["#node"]->nid == $currentNode->nid)
-                    {
-                        $el["is_active"] = ['#markup' => 'active'];
-                    }
-                }
-            }
-            
-        }
-        //dpm($answer["nodes"], "AN");
-        */
+        $answer = node_view_multiple($nodes, 'teaser', 0, LANGUAGE_NONE);
         
         return $answer;
     }
@@ -46,7 +27,9 @@ class IntouchNavHelper
      */
     public static function getRenderableTopics()
     {
-        $answer = [];
+        $vocab = taxonomy_vocabulary_machine_name_load('news_category');
+        $terms = entity_load('taxonomy_term', FALSE, ['vid' => $vocab->vid]);
+        $answer = taxonomy_term_view_multiple($terms, 'teaser', 0, LANGUAGE_NONE);
         
         return $answer;
     }

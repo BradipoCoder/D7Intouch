@@ -110,8 +110,8 @@ class Page implements HookInterface
             $img = $newsletterNode->field_image[LANGUAGE_NONE][0];
             $bgImage = image_style_url('newsletter_cover_vertical', $img["uri"]);
             
-            $elementsNewlettersLast = IntouchNavHelper::getRenderableNewsletters(6, $newsletterNode);
-            $elementsNewlettersAll = IntouchNavHelper::getRenderableNewsletters(0, $newsletterNode);
+            $elementsNewlettersLast = IntouchNavHelper::getRenderableNewsletters(6);
+            $elementsNewlettersAll = IntouchNavHelper::getRenderableNewsletters(0);
             $elementsTopics = IntouchNavHelper::getRenderableTopics();
             
             $agoraNavBar = [

@@ -72,6 +72,16 @@ function agora_preprocess_entity(&$vars)
 }
 
 /**
+ * Implements hook_preprocess_taxonomy_term()
+ *
+ * @param $vars
+ */
+function agora_preprocess_taxonomy_term(&$vars)
+{
+    HookExecutor::executeGenericHook(['preprocess', 'taxonomy_term'], [&$vars]);
+}
+
+/**
  * Generic node(all types) edit form hook
  *
  * @param array $form

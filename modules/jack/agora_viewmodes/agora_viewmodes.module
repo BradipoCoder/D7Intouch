@@ -17,4 +17,9 @@ function agora_viewmodes_entity_info_alter(&$entity_info)
         'label'           => t('Navbar'),
         'custom settings' => true,
     ];
+    
+    $entity_info['taxonomy_term']['view modes']['teaser'] = [
+        'label'           => t('Teaser'),
+        'custom settings' => true,
+    ];
 }
