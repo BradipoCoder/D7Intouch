@@ -2,17 +2,19 @@
     //newsletter side bar
 ?>
 
-<header class="main-header">
-    <a href="newsletter.html" class="back-btn"><i class="icon icon-arrow-left"></i></a>
+<header class="main-header" style="background-image:url(<?php print $bgimage; ?>)">
+    <a href="<?php print $backlink; ?>" class="back-btn"><i class="icon icon-arrow-left"></i></a>
     <div class="header-content">
         <div class="header-content-logo">
             <div class="in-touch-logo"><img src="<?php print INTOUCHPATH; ?>images/intouch-logo.png"></div>
             <div class="diasorin-logo"><img src="<?php print INTOUCHPATH; ?>images/diasorin-logo.png" width="80"></div>
         </div>
         <div class="header-content-inner">
-            <div class="header-icon-container"><span class="category-number-2x"><?php print $number; ?></span></div>
+            <div class="header-icon-container">
+                <span class="category-number-2x"><?php print render($title); ?></span>
+            </div>
             <h1 class="category-title-2x">Newsletter</h1>
-            <span class="category-date-2x"><?php print $date; ?></span>
+            <span class="category-date-2x"><?php print render($date); ?></span>
             <button class="js-scroll-to visible-xs-inline-block btn btn-default" data-target=".main-content">Read</button>
         </div>
     </div>
@@ -199,7 +201,7 @@
     </div>
     <nav class="main-nav">
         <div class="mobile-category-header">
-            <a href="newsletter.html">
+            <a href="<?php print $backlink; ?>">
                 <div class="mobile-category-icon-container"><span class="category-number-1x"><i class="icon icon-arrow-left"></i></span></div>
                 <div class="mobile-category-title-container"><span class="category-title-1x">Back</span></div>
             </a>

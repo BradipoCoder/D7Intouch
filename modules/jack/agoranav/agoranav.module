@@ -10,8 +10,10 @@ function agoranav_theme()
             'template' =>  'agoranav_newsletter',
             'pattern'   => 'agoranav_newsletter__',
             'variables' => [
-                'number' =>         NULL,
+                'title' =>          NULL,
                 'date' =>           NULL,
+                'bgimage' =>        NULL,
+                'backlink' =>       NULL,
             ],
         ],
         'agoranav_article' => [

@@ -7,6 +7,7 @@
 
 namespace Agora\Preprocess;
 
+use Agora\Util\NodeHelper;
 use Agora\Util\ThemeHelper;
 use Mekit\Drupal7\HookInterface;
 
@@ -43,7 +44,7 @@ class Page implements HookInterface
             {
                 self::generateArticleNavbar($vars);
                 $hasNavigation = true;
-            } else if(in_array($node->type, ["nlarticle"]))
+            } else if(in_array($node->type, ["newsletter", "nlarticle"]))
             {
                 self::generateNewsletterArticleNavbar($vars);
                 $hasNavigation = true;
@@ -83,26 +84,42 @@ class Page implements HookInterface
      */
     private static function generateNewsletterArticleNavbar(&$vars)
     {
-        if(!isset($vars["node"]) || !in_array($vars["node"]->type, ["nlarticle"]))
+        $agoraNavBar = [];
+        
+        if($vars["node"]->type == 'newsletter')
         {
-            return;
+            /** @var \stdClass $newsletterNode */
+            $newsletterNode = $vars["node"];
+        } else {
+            /** @var \stdClass $newsletterNode */
+            $newsletterNode = NodeHelper::getParentNodeOfNodeInVars($vars);
         }
-    
-        /** @var \stdClass $node */
-        $node = $vars["node"];
-    
-        $newsletterNumber = 719;
-        $newsletterDate = 'November 17, 1633';
         
-        $agoraNavBar = [
-            '#theme' => 'agoranav_newsletter',
-            '#number' => $newsletterNumber,
-            '#date' => $newsletterDate,
-        ];
+        
+        if($newsletterNode)
+        {
+            //dpm($newsletterNode, "NLN");
+            $newsletterTitle = field_view_field('node', $newsletterNode, 'title_field', 'full');
+            $newsletterDate = field_view_field('node', $newsletterNode, 'field_pubdate', 'full');
+            $backLink = url('node/' . $newsletterNode->nid);
+            
+            $img = $newsletterNode->field_image[LANGUAGE_NONE][0];
+            $bgImage = image_style_url('newsletter_cover', $img["uri"]);
+            
     
+            $agoraNavBar = [
+                '#theme' => 'agoranav_newsletter',
+                '#title' => $newsletterTitle,
+                '#date' => $newsletterDate,
+                '#bgimage' => $bgImage,
+                '#backlink' => $backLink,
+            ];
+            
+            
+        }
+        
+        
         $vars['page']['content']['sidebar'] = $agoraNavBar;
-        
-        
     }
     
     

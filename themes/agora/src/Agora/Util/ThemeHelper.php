@@ -97,11 +97,18 @@ class ThemeHelper
         
         if(isset($node->{$fieldName})) {
             $field = $node->{$fieldName};
-    
+            
+            $taxonomyTerm = false;
             if(isset($field[LANGUAGE_NONE][0]['taxonomy_term']))
             {
-                /** @var \stdClass $taxonomyTerm */
                 $taxonomyTerm = $field[LANGUAGE_NONE][0]['taxonomy_term'];
+            } else if(isset($field[0]['taxonomy_term']))
+            {
+                $taxonomyTerm = $field[0]['taxonomy_term'];
+            }
+            
+            if($taxonomyTerm)
+            {
                 if(isset($taxonomyTerm->name) && !empty($taxonomyTerm->name))
                 {
                     $answer = $taxonomyTerm->name;

@@ -21,6 +21,7 @@ class Nlarticle implements HookInterface
         self::setupArticleClasses($vars);
         self::addContentNavigation($vars);
         self::addContentRelated($vars);
+        self::addTeaserDataToContent($vars);
         
         //$vars["content"]["issue_number"] = field_view_field('node', $parentNode, 'field_pubnumber', 'full');
         
@@ -31,8 +32,30 @@ class Nlarticle implements HookInterface
     /**
      * @param array $vars
      */
+    private static function addTeaserDataToContent(&$vars)
+    {
+        if($vars["view_mode"] != 'teaser')
+        {
+            return;
+        }
+        
+        /** @var \stdClass $currentNode */
+        $currentNode = $vars["node"];
+        
+        $vars["content"]["link2article"] = url('node/' . $currentNode->nid);
+    }
+    
+    
+    /**
+     * @param array $vars
+     */
     private static function addContentNavigation(&$vars)
     {
+        if($vars["view_mode"] != 'full')
+        {
+            return;
+        }
+        
         /** @var \stdClass $currentNode */
         $currentNode = $vars["node"];
         $previousNode = false;
@@ -83,6 +106,11 @@ class Nlarticle implements HookInterface
      */
     private static function addContentRelated(&$vars)
     {
+        if($vars["view_mode"] != 'full')
+        {
+            return;
+        }
+        
         $vars["content"]["content-related"] = [
             '#markup' => 'RELATED',
         ];
@@ -101,12 +129,16 @@ class Nlarticle implements HookInterface
         {
             case "full":
                 //single-articles-content products-category main-content
+                //$vars["classes_array"] = [];
                 $vars["classes_array"][] = 'single-articles-content';
                 $vars["classes_array"][] = 'category-' . $catName;
                 $vars["classes_array"][] = 'main-content';
                 break;
             case "teaser":
-                //
+                //class="article-card category-products_innovation"
+                $vars["classes_array"] = [];
+                $vars["classes_array"][] = 'article-card';
+                $vars["classes_array"][] = 'category-' . $catName;
                 break;
             case "navbar":
                 //
