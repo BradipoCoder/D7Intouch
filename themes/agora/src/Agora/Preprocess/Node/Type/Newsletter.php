@@ -20,9 +20,30 @@ class Newsletter implements HookInterface
     {
         self::setupArticleClasses($vars);
         self::addChildrenToContent($vars);
-        //self::addContentRelated($vars);
+        self::addTeaserDataToContent($vars);
         
         //dpm($vars, "NEWSLETTER");
+    }
+    
+    /**
+     * @param array $vars
+     */
+    private static function addTeaserDataToContent(&$vars)
+    {
+        if($vars["view_mode"] != 'teaser')
+        {
+            return;
+        }
+        
+        /** @var \stdClass $currentNode */
+        $currentNode = $vars["node"];
+        
+        //LINK
+        $vars["content"]["link2newsletter"] = url('node/' . $currentNode->nid);
+        
+        //BG IMAGE
+        $img = $currentNode->field_image[LANGUAGE_NONE][0];
+        $vars["content"]["newletter_cover"] = image_style_url('newsletter_cover_horizontal', $img["uri"]);
     }
     
     
@@ -61,13 +82,19 @@ class Newsletter implements HookInterface
      */
     private static function setupArticleClasses(&$vars)
     {
+        /** @var \stdClass $currentNode */
+        $currentNode = $vars["node"];
+        
         switch ($vars["view_mode"])
         {
             case "full":
                 $vars["classes_array"][] = 'main-content';
                 break;
             case "teaser":
-                //
+                $context = menu_get_object();
+                if ($context && $context->nid == $currentNode->nid){
+                    $vars["classes_array"][] = 'active';
+                }
                 break;
             case "navbar":
                 //

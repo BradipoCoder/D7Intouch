@@ -7,6 +7,7 @@
 
 namespace Agora\Preprocess;
 
+use Agora\Util\IntouchNavHelper;
 use Agora\Util\NodeHelper;
 use Agora\Util\ThemeHelper;
 use Mekit\Drupal7\HookInterface;
@@ -104,7 +105,11 @@ class Page implements HookInterface
             $backLink = url('node/' . $newsletterNode->nid);
             
             $img = $newsletterNode->field_image[LANGUAGE_NONE][0];
-            $bgImage = image_style_url('newsletter_cover', $img["uri"]);
+            $bgImage = image_style_url('newsletter_cover_vertical', $img["uri"]);
+            
+            $elementsNewlettersLast = IntouchNavHelper::getRenderableNewsletters(6, $newsletterNode);
+            $elementsNewlettersAll = IntouchNavHelper::getRenderableNewsletters(0, $newsletterNode);
+            $elementsTopics = IntouchNavHelper::getRenderableTopics();
             
     
             $agoraNavBar = [
@@ -113,11 +118,11 @@ class Page implements HookInterface
                 '#date' => $newsletterDate,
                 '#bgimage' => $bgImage,
                 '#backlink' => $backLink,
+                '#elements_nl_last' => $elementsNewlettersLast,
+                '#elements_nl_all' => $elementsNewlettersAll,
+                '#elements_topics' => $elementsTopics,
             ];
-            
-            
         }
-        
         
         $vars['page']['content']['sidebar'] = $agoraNavBar;
     }

@@ -10,10 +10,13 @@ function agoranav_theme()
             'template' =>  'agoranav_newsletter',
             'pattern'   => 'agoranav_newsletter__',
             'variables' => [
-                'title' =>          NULL,
-                'date' =>           NULL,
-                'bgimage' =>        NULL,
-                'backlink' =>       NULL,
+                'title' =>                  NULL,
+                'date' =>                   NULL,
+                'bgimage' =>                NULL,
+                'backlink' =>               NULL,
+                'elements_nl_last' =>       [],
+                'elements_nl_all' =>        [],
+                'elements_topics' =>        [],
             ],
         ],
         'agoranav_article' => [
@@ -64,6 +67,22 @@ function agoranav_preprocess_agoranav_article(&$vars)
         if(isset($obj->type))
         {
             $vars['theme_hook_suggestions'][] = 'agoranav_article__' . $obj->type;
+        }
+    }
+    //dpm($vars['theme_hook_suggestions'], "AGORANAV-ARTICLE");
+}
+
+/**
+ * @param array $vars
+ */
+function agoranav_preprocess_agoranav_newsletter(&$vars)
+{
+    $obj = menu_get_object();
+    if($obj && is_object($obj))
+    {
+        if(isset($obj->type))
+        {
+            $vars['theme_hook_suggestions'][] = 'agoranav_newsletter__' . $obj->type;
         }
     }
     //dpm($vars['theme_hook_suggestions'], "AGORANAV-ARTICLE");
