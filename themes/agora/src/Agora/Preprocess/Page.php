@@ -11,6 +11,7 @@ use Agora\Util\IntouchNavHelper;
 use Agora\Util\NodeHelper;
 use Agora\Util\ThemeHelper;
 use Mekit\Drupal7\HookInterface;
+use Stringy\StaticStringy;
 
 /**
  * Class Page
@@ -45,11 +46,13 @@ class Page implements HookInterface
             {
                 self::generateArticleNavbar($vars);
                 $hasNavigation = true;
-            } else if(in_array($node->type, ["newsletter", "nlarticle"]))
-            {
-                self::generateNewsletterArticleNavbar($vars);
-                $hasNavigation = true;
             }
+        }
+        
+        if(ThemeHelper::getCurrentArea() == ThemeHelper::AREA_INTOUCH)
+        {
+            self::generateNewsletterArticleNavbar($vars);
+            $hasNavigation = true;
         }
         
         //fallback to main navigation
@@ -111,7 +114,6 @@ class Page implements HookInterface
             $elementsNewlettersAll = IntouchNavHelper::getRenderableNewsletters(0, $newsletterNode);
             $elementsTopics = IntouchNavHelper::getRenderableTopics();
             
-    
             $agoraNavBar = [
                 '#theme' => 'agoranav_newsletter',
                 '#title' => $newsletterTitle,
@@ -121,6 +123,28 @@ class Page implements HookInterface
                 '#elements_nl_last' => $elementsNewlettersLast,
                 '#elements_nl_all' => $elementsNewlettersAll,
                 '#elements_topics' => $elementsTopics,
+            ];
+        } else {
+            $tid = false;
+            $topicTitle = '';
+            $topicId = '';
+            $topicClass = '';
+            $bgImage = '';
+            if(arg(0) == "newsletter" && arg(1) == "topic")
+            {
+                $tid = arg(2);
+                $term = taxonomy_term_load($tid);
+                $topicTitle = $term->name_field[LANGUAGE_NONE][0]["value"];
+                $topicId = $tid;
+                $topicClass = 'topic_' . StaticStringy::underscored(transliteration_clean_filename($topicTitle));
+            }
+            
+            $agoraNavBar = [
+                '#theme' => 'agoranav_newstopic',
+                '#title' => $topicTitle,
+                '#topic_class' => $topicClass,
+                '#topic_id' => $topicId,
+                '#bgimage' => $bgImage,
             ];
         }
         

@@ -36,11 +36,21 @@ class ThemeHelper
     public static function getCurrentArea()
     {
         $answer = self::AREA_AGORA;
-    
+        
+        //dpm(arg(2), "ARG");
+        //drupal_lookup_path('source', $_GET['q']);
+        //dpm($_GET['q'], "MI");
+        
         $menuItem = menu_get_object();
-        $nodeType = isset($menuItem->type) ? $menuItem->type : false;
-        //$nodeId = isset($menuItem->nid) ? $menuItem->nid : false;
-        if(in_array($nodeType, self::$intouchNodeTypes))
+        if($menuItem)
+        {
+            $nodeType = isset($menuItem->type) ? $menuItem->type : false;
+            //$nodeId = isset($menuItem->nid) ? $menuItem->nid : false;
+            if(in_array($nodeType, self::$intouchNodeTypes))
+            {
+                $answer = self::AREA_INTOUCH;
+            }
+        } else if(arg(0) == "newsletter" && arg(1) == "topic")
         {
             $answer = self::AREA_INTOUCH;
         }

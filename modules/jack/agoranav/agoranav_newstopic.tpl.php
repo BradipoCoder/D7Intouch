@@ -2,5 +2,5 @@
     //newsletter side bar
 ?>
 <header class="main-header">
-    Newsletter #<?php print $title; ?>
+    Topic #<?php print $title; ?>
 </header>
