@@ -46,7 +46,7 @@ class Imagegallery implements HookInterface
                 $content["image_gallery"] = [
                     'image' => [
                         '#theme' => 'image_formatter',
-                        '#image_style' => 'gallery_small',
+                        '#image_style' => '16_9_h310',
                         '#item' => $imageElement,
                     ],
                     'caption' => [
@@ -55,25 +55,33 @@ class Imagegallery implements HookInterface
                 ];
                 break;
             case "double":
-                foreach($imageElements as $imageElement)
-                {
-                    $content["image_gallery"][] = [
-                        '#theme' => 'image_formatter',
-                        '#image_style' => 'gallery_small',
-                        '#item' => $imageElement,
-                    ];
-                }
+                $content["image_gallery"][] = [
+                    '#theme' => 'image_formatter',
+                    '#image_style' => 'gallery_vertical',
+                    '#item' => $imageElements[0],
+                ];
+                $content["image_gallery"][] = [
+                    '#theme' => 'image_formatter',
+                    '#image_style' => 'gallery_vertical',
+                    '#item' => $imageElements[1],
+                ];
                 break;
             case "triple":
-                foreach($imageElements as $imageElement)
-                {
-                    $content["image_gallery"][] = [
-                        '#theme' => 'image_formatter',
-                        '#image_style' => 'gallery_small',
-                        '#item' => $imageElement,
-                    ];
-                }
-                break;
+                $content["image_gallery"][] = [
+                    '#theme' => 'image_formatter',
+                    '#image_style' => 'gallery_vertical',
+                    '#item' => $imageElements[0],
+                ];
+                $content["image_gallery"][] = [
+                    '#theme' => 'image_formatter',
+                    '#image_style' => '16_9_h310',
+                    '#item' => $imageElements[1],
+                ];
+                $content["image_gallery"][] = [
+                    '#theme' => 'image_formatter',
+                    '#image_style' => '16_9_h310',
+                    '#item' => $imageElements[2],
+                ];
                 break;
             case "multiple_1":/* this is the style defined in newsletter */
                 $content["image_gallery"] = self::getGalleryImages_Style1($vars);
@@ -107,8 +115,7 @@ class Imagegallery implements HookInterface
             foreach($imageElements as $imageElement)
             {
                 $img_orig_uri = $imageElement["uri"];
-                //$img_big_uri = image_style_url('gallery_big', $img_orig_uri);
-                $img_small_uri = image_style_url('gallery_small', $img_orig_uri);
+                $img_small_uri = image_style_url('16_9_h65', $img_orig_uri);
                 
                 $liAttributes = [
                     'data-thumb' => $img_small_uri,
@@ -119,7 +126,7 @@ class Imagegallery implements HookInterface
                     '#suffix' => '</li>',
                     'image' => [
                         '#theme' => 'image_formatter',
-                        '#image_style' => 'gallery_big',
+                        '#image_style' => '16_9_h310',
                         '#item' => $imageElement,
                     ],
                 ];
@@ -147,8 +154,7 @@ class Imagegallery implements HookInterface
             foreach($imageElements as $imageElement)
             {
                 $img_orig_uri = $imageElement["uri"];
-                $img_big_uri = image_style_url('gallery_big', $img_orig_uri);
-                //$img_small_uri = image_style_url('gallery_small', $img_orig_uri);
+                $img_big_uri = image_style_url('16_9_h1206', $img_orig_uri);
                 
                 $caption = isset($imageElement["title"]) ? $imageElement["title"] : '';
                 
@@ -161,7 +167,7 @@ class Imagegallery implements HookInterface
                     '#suffix' => '</li>',
                     'image' => [
                         '#theme' => 'image_formatter',
-                        '#image_style' => 'gallery_small',
+                        '#image_style' => '16_9_h756',
                         '#item' => $imageElement,
                     ],
                     'caption' => [
