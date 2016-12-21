@@ -12,7 +12,6 @@ function agora_nodeformauto_form_node_form_alter(&$form, $form_state)
     {
         ___agora_nodeformauto_newletter_edit_form_alter($form, $form_state);
     }
-    //dpm($form, "NODE-EDIT FORM AGORA");
 }
 
 /**
@@ -27,8 +26,8 @@ function ___agora_nodeformauto_newletter_edit_form_alter(&$form, $form_state)
         // Auto numbering
         $number = ___agora_nodeformauto_get_new_newsletter_number();
         $form["title_field"][LANGUAGE_NONE][0]["value"]["#default_value"] = $number;
-        $form["title_field"][LANGUAGE_NONE][0]["value"]["#attributes"]["readonly"] = "readonly";
     }
+    $form["title_field"][LANGUAGE_NONE][0]["value"]["#attributes"]["readonly"] = "readonly";
 }
 
 /**
