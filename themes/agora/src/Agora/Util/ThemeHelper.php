@@ -31,26 +31,23 @@ class ThemeHelper
      * Decision: Always AREA_AGORA unless:
      *      content type: newsletter|nlarticle
      *      url/nid: boh? - tipo pagina newsletter topic??
+     *
      * @return int
      */
     public static function getCurrentArea()
     {
         $answer = self::AREA_AGORA;
         
-        //dpm(arg(2), "ARG");
-        //drupal_lookup_path('source', $_GET['q']);
-        //dpm($_GET['q'], "MI");
-        
         $menuItem = menu_get_object();
-        if($menuItem)
+        if ($menuItem)
         {
             $nodeType = isset($menuItem->type) ? $menuItem->type : false;
-            //$nodeId = isset($menuItem->nid) ? $menuItem->nid : false;
-            if(in_array($nodeType, self::$intouchNodeTypes))
+            if (in_array($nodeType, self::$intouchNodeTypes))
             {
                 $answer = self::AREA_INTOUCH;
             }
-        } else if(arg(0) == "newsletter" && arg(1) == "topic")
+        }
+        else if (arg(0) == "newsletter" && arg(1) == "topic")
         {
             $answer = self::AREA_INTOUCH;
         }
@@ -70,7 +67,7 @@ class ThemeHelper
      * Get the children of the given node.
      *
      * @param string $pnid
-     * @param int $limit
+     * @param int    $limit
      *
      * @return array
      *
@@ -87,7 +84,8 @@ class ThemeHelper
         $query->condition('nhp.nid', $pnid, '=');
         
         $result = $query->execute();
-        foreach ($result as $item) {
+        foreach ($result as $item)
+        {
             $nids[] = $item->nid;
         }
         
@@ -96,33 +94,37 @@ class ThemeHelper
     
     /**
      * Get name of the taxonomy term for a field in the node and return it (underscored if you want)
+     *
      * @param \stdClass $node
-     * @param string $fieldName
-     * @param bool $underscored
+     * @param string    $fieldName
+     * @param bool      $underscored
+     *
      * @return string
      */
     public static function getArticleCategoryNameFromNode($node, $fieldName, $underscored = true)
     {
         $answer = '';
         
-        if(isset($node->{$fieldName})) {
+        if (isset($node->{$fieldName}))
+        {
             $field = $node->{$fieldName};
             
             $taxonomyTerm = false;
-            if(isset($field[LANGUAGE_NONE][0]['taxonomy_term']))
+            if (isset($field[LANGUAGE_NONE][0]['taxonomy_term']))
             {
                 $taxonomyTerm = $field[LANGUAGE_NONE][0]['taxonomy_term'];
-            } else if(isset($field[0]['taxonomy_term']))
+            }
+            else if (isset($field[0]['taxonomy_term']))
             {
                 $taxonomyTerm = $field[0]['taxonomy_term'];
             }
             
-            if($taxonomyTerm)
+            if ($taxonomyTerm)
             {
-                if(isset($taxonomyTerm->name) && !empty($taxonomyTerm->name))
+                if (isset($taxonomyTerm->name) && !empty($taxonomyTerm->name))
                 {
                     $answer = $taxonomyTerm->name;
-                    if($underscored)
+                    if ($underscored)
                     {
                         $answer = transliteration_clean_filename($answer);
                         $answer = StaticStringy::underscored($answer);
@@ -130,7 +132,7 @@ class ThemeHelper
                 }
             }
         }
-
+        
         return $answer;
     }
     
