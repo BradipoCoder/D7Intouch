@@ -1,8 +1,8 @@
 <?php
-
+    //
 ?>
 
-<li class="<?php print $content["topic_class"]; ?>">
+<li class="<?php print $classes; ?>">
     <a href="<?php print $content["link2term"]; ?>">
         <span class="menu-number">
             <i class="cat-icons cat<?php print $content["topic_id"]; ?>"></i>

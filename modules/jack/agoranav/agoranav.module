@@ -14,6 +14,9 @@ function agoranav_theme()
                 'topic_id' =>               NULL,
                 'topic_class' =>            NULL,
                 'bgimage' =>                NULL,
+                'elements_nl_last' =>       [],
+                'elements_nl_all' =>        [],
+                'elements_topics' =>        [],
             ],
         ],
         'agoranav_newsletter' => [

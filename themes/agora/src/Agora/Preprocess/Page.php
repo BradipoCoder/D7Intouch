@@ -125,11 +125,15 @@ class Page implements HookInterface
                 '#elements_topics' => $elementsTopics,
             ];
         } else {
-            $tid = false;
+            //
             $topicTitle = '';
             $topicId = '';
             $topicClass = '';
             $bgImage = '';
+            //
+            $elementsNewlettersLast = IntouchNavHelper::getRenderableNewsletters(6);
+            $elementsNewlettersAll = IntouchNavHelper::getRenderableNewsletters(0);
+            $elementsTopics = IntouchNavHelper::getRenderableTopics();
             if(arg(0) == "newsletter" && arg(1) == "topic")
             {
                 $tid = arg(2);
@@ -142,9 +146,12 @@ class Page implements HookInterface
             $agoraNavBar = [
                 '#theme' => 'agoranav_newstopic',
                 '#title' => $topicTitle,
-                '#topic_class' => $topicClass,
                 '#topic_id' => $topicId,
+                '#topic_class' => $topicClass,
                 '#bgimage' => $bgImage,
+                '#elements_nl_last' => $elementsNewlettersLast,
+                '#elements_nl_all' => $elementsNewlettersAll,
+                '#elements_topics' => $elementsTopics,
             ];
         }
         
