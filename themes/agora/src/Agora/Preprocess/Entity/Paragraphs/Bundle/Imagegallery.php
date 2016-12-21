@@ -115,7 +115,7 @@ class Imagegallery implements HookInterface
             foreach($imageElements as $imageElement)
             {
                 $img_orig_uri = $imageElement["uri"];
-                $img_small_uri = image_style_url('16_9_h65', $img_orig_uri);
+                $img_small_uri = image_style_url('16_9_h90', $img_orig_uri);
                 
                 $liAttributes = [
                     'data-thumb' => $img_small_uri,
@@ -126,7 +126,7 @@ class Imagegallery implements HookInterface
                     '#suffix' => '</li>',
                     'image' => [
                         '#theme' => 'image_formatter',
-                        '#image_style' => '16_9_h310',
+                        '#image_style' => '16_9_h756',
                         '#item' => $imageElement,
                     ],
                 ];
