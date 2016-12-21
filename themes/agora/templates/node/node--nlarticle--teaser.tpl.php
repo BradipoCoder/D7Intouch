@@ -20,7 +20,7 @@
         </a>
     </header>
     <div class="article-card-content">
-        <a href="#" class="category-links">
+        <a href="<?php print $content["news_category_link"]; ?>" class="category-links">
             <span class="h7 cta">
                 <?php print render($content["field_news_category"]); ?>
             </span>

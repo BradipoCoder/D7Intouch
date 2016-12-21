@@ -18,6 +18,11 @@ function agora_viewmodes_entity_info_alter(&$entity_info)
         'custom settings' => true,
     ];
     
+    $entity_info['node']['view modes']['related'] = [
+        'label'           => t('Related'),
+        'custom settings' => true,
+    ];
+    
     $entity_info['taxonomy_term']['view modes']['teaser'] = [
         'label'           => t('Teaser'),
         'custom settings' => true,

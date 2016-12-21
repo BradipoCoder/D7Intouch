@@ -15,7 +15,7 @@
     <div class="single-articles-wrapper">
         <div class="single-articles-container">
             <header class="single-articles-header">
-                <a href="#" class="category-links">
+                <a href="<?php print $content["news_category_link"]; ?>" class="category-links">
                     <span class="h7 cta">
                         <?php print render($content["field_news_category"]); ?>
                     </span>
@@ -47,16 +47,7 @@
                     <span>Related articles: </span>
                 </header>
                 <div class="row">
-                    <div class="col-md-4">
-                        REL-1
-                    </div>
-                    <div class="col-md-4">
-                        REL-2
-                    </div>
-                    <div class="col-md-4">
-                        REL-3
-                    </div>
-                    <?php /*print render($content["content-related"]);*/ ?>
+                    <?php print render($content["content-related"]); ?>
                 </div>
             </div>
         </div>

@@ -7,6 +7,7 @@
 
 namespace Agora\Preprocess\Node\Type;
 
+use Agora\Util\IntouchNavHelper;
 use Agora\Util\NodeHelper;
 use Agora\Util\ThemeHelper;
 use Mekit\Drupal7\HookInterface;
@@ -21,28 +22,25 @@ class Nlarticle implements HookInterface
         self::setupArticleClasses($vars);
         self::addContentNavigation($vars);
         self::addContentRelated($vars);
-        self::addTeaserDataToContent($vars);
-        
-        //$vars["content"]["issue_number"] = field_view_field('node', $parentNode, 'field_pubnumber', 'full');
-        
-        
+        self::addDataToContent($vars);
+    
         //dpm($vars["node"], "NODE-NLARTICLE");
     }
     
     /**
      * @param array $vars
      */
-    private static function addTeaserDataToContent(&$vars)
+    private static function addDataToContent(&$vars)
     {
-        if($vars["view_mode"] != 'teaser')
-        {
-            return;
-        }
-        
         /** @var \stdClass $currentNode */
         $currentNode = $vars["node"];
         
+        //link to node
         $vars["content"]["link2article"] = url('node/' . $currentNode->nid);
+        
+        //link to topic
+        $tid = $currentNode->field_news_category[LANGUAGE_NONE][0]["tid"];
+        $vars["content"]["news_category_link"] = url('newsletter/topic/' . $tid);
     }
     
     
@@ -110,10 +108,22 @@ class Nlarticle implements HookInterface
         {
             return;
         }
-        
-        $vars["content"]["content-related"] = [
-            '#markup' => 'RELATED',
-        ];
+        /** @var \stdClass $currentNode */
+        $currentNode = $vars["node"];
+    
+        $related = [];
+        if(isset($currentNode->field_news_category[LANGUAGE_NONE][0]["tid"]))
+        {
+            $tid = $currentNode->field_news_category[LANGUAGE_NONE][0]["tid"];
+            $related = IntouchNavHelper::getRenderableNewsletterArticles(3, $tid, 'related');
+            
+            //remove current node
+            if(isset($related["nodes"]) && array_key_exists($currentNode->nid, $related["nodes"]))
+            {
+                unset($related["nodes"][$currentNode->nid]);
+            }
+        }
+        $vars["content"]["content-related"] = $related;
     }
     
     
@@ -133,6 +143,11 @@ class Nlarticle implements HookInterface
                 $vars["classes_array"][] = 'single-articles-content';
                 $vars["classes_array"][] = 'category-' . $catName;
                 $vars["classes_array"][] = 'main-content';
+                break;
+            case "related":
+                $vars["classes_array"] = [];
+                $vars["classes_array"][] = 'col-md-4';
+                $vars["classes_array"][] = 'category-' . $catName;
                 break;
             case "teaser":
                 //class="article-card category-products_innovation"
