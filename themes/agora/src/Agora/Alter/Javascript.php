@@ -71,6 +71,13 @@ class Javascript implements HookInterface
             $js = array_merge($js, $config);
         }
         
+        //special - newsletter/topic/% - view 'Newsletter article topic'
+        if(arg(0) == "newsletter" && arg(1) == "topic")
+        {
+            $config = self::getParsedConfig($baseConfigDir . 'special/newsletter_topic.yml');
+            $js = array_merge($js, $config);
+        }
+        
         //dpm($js, "JS(FINAL)");
     }
     
