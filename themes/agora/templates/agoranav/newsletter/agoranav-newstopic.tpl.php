@@ -11,7 +11,6 @@
 </section>
 
 <header class="main-header <?php print $topic_class; ?>">
-    
     <div class="header-content">
         <div class="header-content-logo">
             <div class="in-touch-logo"><img src="<?php print INTOUCHPATH; ?>images/intouch-logo.png"></div>

@@ -14,7 +14,7 @@
 <section id="node-<?php print $node->nid; ?>" class="<?php print $classes; ?>">
     <header class="article-list-header">
         <span class="article-list-breadcrumbs">
-            <b>Articles</b> | NEWSLETTER <b>#<?php print render($content["title_field"]); ?></b></span>
+            <b>Articles</b> | NEWSLETTER <b><?php print render($content["title_field"]); ?></b></span>
     </header>
     <div class="articles-container">
         <?php print render($content["articles"]); ?>

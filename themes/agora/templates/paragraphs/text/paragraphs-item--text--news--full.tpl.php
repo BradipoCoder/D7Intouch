@@ -7,5 +7,7 @@
  * View mode:   full
  */
 ?>
+<div class="text-container">
 <?php print render($content); ?>
+</div>
 
