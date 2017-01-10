@@ -22,6 +22,14 @@
                 </a>
                 <h1 class="h2"><?php print render($content["title_field"]); ?></h1>
                 <h4><?php print render($content["field_focus"]); ?></h4>
+    
+                <div class="article-gallery article-cover single">
+                    <div class="article-gallery-content">
+                        <div class="article-gallery-img-container embed-responsive embed-responsive-16by9">
+                            <?php print render($content["field_image"]); ?>
+                        </div>
+                    </div>
+                </div>
             </header>
             <div class="single-articles-content">
                 <?php print render($content["field_paragraphs_news"]); ?>
