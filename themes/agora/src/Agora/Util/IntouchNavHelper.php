@@ -78,20 +78,22 @@ class IntouchNavHelper
     {
         $answer = [];
         
-        $select = db_select('node', 'n')
-            ->fields('n', ['nid'])
-            ->condition('type', 'newsletter', '=')
-            ->orderBy('title', 'desc');
+        $q = db_select('node', 'n');
+        $q->fields('n', ['nid']);
+        $q->addExpression('CAST(title AS UNSIGNED)', 'nlnumber');
+        $q->condition('type', 'newsletter', '=');
+        $q->orderBy('nlnumber', 'desc');
         
         if ($limit > 0)
         {
-            $select->range(0, $limit);
+            $q->range(0, $limit);
         }
         
         /** @var \DatabaseStatementInterface $statement */
-        $statement = $select->execute();
+        $statement = $q->execute();
+        //echo '<pre>' . $statement->getQueryString() . '</pre>';
         
-        $nids = $statement->fetchCol();
+        $nids = $statement->fetchCol(0);
         
         if ($nids && count($nids))
         {
