@@ -1,13 +1,3 @@
 /*
      FOR TESTING ONLY - ONLY TEMPORARY STUFF
 */
-
-.date-display-range span {
-    display: block;
-    border: 1px solid #ff0000;
-}
-
-.megadropdown-menu .article-teaser .article-category, .megadropdown-menu .article-teaser .image-container
-{
-    display:block;
-}

@@ -28,7 +28,7 @@ class Page implements HookInterface
         self::setThemeHookSuggestions($vars);
         self::generateContentSpecificNavbar($vars);
         
-        //dpm($vars, "PAGE VARS");
+        //krumo($vars, "PAGE VARS");
     }
     
     /**
@@ -38,6 +38,11 @@ class Page implements HookInterface
     {
         //exclude some specific paths
         if(arg(0) == 'user') {
+            return;
+        }
+    
+        //exclude some specific paths
+        if(arg(0) == 'nlp') {
             return;
         }
         

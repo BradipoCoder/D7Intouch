@@ -20,10 +20,19 @@ class Html implements HookInterface
     {
         self::addArticleCategoryBodyClasses($vars);
         self::addIntouchBodyClasses($vars);
+        self::disableKadmin($vars);
         
-        //dpm($vars, "HTML");
+        //krumo($vars, "HTML");
     }
     
+    
+    private static function disableKadmin(&$vars)
+    {
+        if(arg(0) == 'nlp') {
+            //newsletter preview mode - kill kadmin
+            unset($vars['page']['page_top']['kadmin']);
+        }
+    }
     
     /**
      * @param array $vars

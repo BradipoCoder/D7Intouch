@@ -40,10 +40,16 @@ class Css implements HookInterface
      */
     protected static function addAreaCss(&$css)
     {
+        if(arg(0) == 'nlp') {
+            //newsletter preview mode - kill all styling
+            $css = [];
+            return;
+        }
+        
+        $area = ThemeHelper::getCurrentArea();
         $themePath = ThemeHelper::getCurrentThemePath();
         $lessEntryPoint = false;
         
-        $area = ThemeHelper::getCurrentArea();
         if($area == ThemeHelper::AREA_AGORA)
         {
             $lessEntryPoint = $themePath . '/agora/style/style.less';
@@ -68,7 +74,6 @@ class Css implements HookInterface
     {
         $themePath = ThemeHelper::getCurrentThemePath();
         
-        //dpm($css, "CSS(BEFORE)");
         foreach ($css as $k => $v)
         {
             if (!(in_array($k, self::$keep) || preg_match('#^' . $themePath . '#', $k)))
@@ -76,6 +81,6 @@ class Css implements HookInterface
                 unset($css[$k]);
             }
         }
-        //dpm($css, "CSS(AFTER)");
+        
     }
 }
