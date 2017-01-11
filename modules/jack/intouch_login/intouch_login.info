@@ -1,0 +1,4 @@
+name = Intouch Login mods
+description = Custom login mods
+core = 7.x
+package = Intouch

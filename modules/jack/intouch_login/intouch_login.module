@@ -1,0 +1,16 @@
+<?php
+
+/**
+ * Implements hook_form_alter().
+ */
+function intouch_login_form_alter(&$form, &$form_state, $form_id)
+{
+    if($form_id == "user_login")
+    {
+        $form['name']['#attributes']['placeholder'] = t( 'Username' );
+        $form['name']['#title_display'] = 'invisible';
+        
+        $form['pass']['#attributes']['placeholder'] = t( 'Password' );
+        $form['pass']['#title_display'] = 'invisible';
+    }
+}
