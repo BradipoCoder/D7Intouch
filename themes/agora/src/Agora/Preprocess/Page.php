@@ -36,6 +36,11 @@ class Page implements HookInterface
      */
     private static function generateContentSpecificNavbar(&$vars)
     {
+        //exclude some specific paths
+        if(arg(0) == 'user') {
+            return;
+        }
+        
         if (ThemeHelper::getCurrentArea() == ThemeHelper::AREA_INTOUCH)
         {
             self::generateNewsletterArticleNavbar($vars);
@@ -130,7 +135,7 @@ class Page implements HookInterface
      */
     private static function setThemeHookSuggestions(&$vars)
     {
-        $vars['theme_hook_suggestions'][] = 'page__area__' . ThemeHelper::getCurrentAreaName();
+        //$vars['theme_hook_suggestions'][] = 'page__area__' . ThemeHelper::getCurrentAreaName();
     }
     
 }

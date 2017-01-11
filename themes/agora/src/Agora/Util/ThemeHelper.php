@@ -36,8 +36,9 @@ class ThemeHelper
      */
     public static function getCurrentArea()
     {
-        $answer = self::AREA_AGORA;
+        $answer = self::AREA_INTOUCH;
         
+        /*
         $menuItem = menu_get_object();
         if ($menuItem)
         {
@@ -51,6 +52,7 @@ class ThemeHelper
         {
             $answer = self::AREA_INTOUCH;
         }
+        */
         
         return $answer;
     }

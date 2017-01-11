@@ -1,0 +1,4 @@
+name = Intouch Custom redirects
+description = Custom redirects
+core = 7.x
+package = Intouch

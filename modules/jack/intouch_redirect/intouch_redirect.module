@@ -1,0 +1,25 @@
+<?php
+
+/**
+ * Implements hook_boot().
+ */
+function intouch_redirect_boot()
+{
+    if(isset($_GET['q']) && $_GET['q'] == '') {
+        //we are on <front>
+        global $user;
+        
+        
+        
+        if ($user->uid == 0) {
+            $url = 'user';
+        } else {
+            $url = 'newsletter/1';
+        }
+        
+        
+        header('Location: ' . $url, TRUE, 302);
+        //drupal_exit();
+        exit();
+    }
+}
