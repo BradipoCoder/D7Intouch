@@ -1,0 +1,4 @@
+name = Intouch Custom View Modes
+description = Custom view modes for newsletters
+core = 7.x
+package = Intouch

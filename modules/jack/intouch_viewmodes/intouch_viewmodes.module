@@ -1,0 +1,15 @@
+<?php
+
+//Add more view modes for content type displays
+function intouch_viewmodes_entity_info_alter(&$entity_info)
+{
+    $entity_info['node']['view modes']['newsletter'] = [
+        'label'           => t('Newsletter'),
+        'custom settings' => true,
+    ];
+    
+    $entity_info['taxonomy_term']['view modes']['teaser'] = [
+        'label'           => t('Teaser'),
+        'custom settings' => true,
+    ];
+}
