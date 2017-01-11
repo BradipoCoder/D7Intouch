@@ -9,8 +9,10 @@ function intouch_login_form_alter(&$form, &$form_state, $form_id)
     {
         $form['name']['#attributes']['placeholder'] = t( 'Username' );
         $form['name']['#title_display'] = 'invisible';
+        $form['name']['#description'] = '';
         
         $form['pass']['#attributes']['placeholder'] = t( 'Password' );
         $form['pass']['#title_display'] = 'invisible';
+        $form['pass']['#description'] = '';
     }
 }
