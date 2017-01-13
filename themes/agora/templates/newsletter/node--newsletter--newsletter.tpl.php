@@ -13,38 +13,6 @@
 ?>
 <?php //echo("FIELD NAMES: " . json_encode(array_keys($content))); ?>
 
-
-
-<!-- gmail app mobile friendly disable -->
-<!--<div style="display:none;white-space:nowrap;font:15px courier;color:#ffffff;line-height:0;width:800px !important;min-width:600px !important;max-width:800px !important;">                                                          </div>-->
-
-
-<!--[if mso]>
-<style>
-    body {
-        font-family:Trebuchet MS,Tahoma,sans-serif !important;
-    }
-    .outlook-fontfix {
-        font-family:Trebuchet MS,Tahoma,sans-serif !important;
-    }
-    .p-padding {
-        padding-top:20px;
-    }
-    .l-padding {
-        padding-left:10px;
-    }
-    .outlook-hide {
-        overflow:hidden !important;
-        float:left !important;
-        display:none !important;
-        line-height:0 !important;
-    }
-    .outlook-width-400 {
-        width:400px;
-    }
-</style>
-<![endif]-->
-
 <table align="center" style="table-layout:fixed;width:100% !important;" width="100%" bgcolor="#ffffff" border="0" cellpadding="0" cellspacing="0">
     <tr>
         <th class="flexible">

@@ -524,6 +524,38 @@
 
 </head>
 <body yahoo="" bgcolor="#f6f8f1" style="width: 100% !important;font-family: Roboto, Arial, sans-serif; font-weight: 400; min-width: 100% !important; margin: 0; padding: 0;">
+
+<!-- gmail app mobile friendly disable -->
+<!--<div style="display:none;white-space:nowrap;font:15px courier;color:#ffffff;line-height:0;width:800px !important;min-width:600px !important;max-width:800px !important;">                                                          </div>-->
+
+
+<!--[if mso]>
+<style>
+    body {
+        font-family:Trebuchet MS,Tahoma,sans-serif !important;
+    }
+    .outlook-fontfix {
+        font-family:Trebuchet MS,Tahoma,sans-serif !important;
+    }
+    .p-padding {
+        padding-top:20px;
+    }
+    .l-padding {
+        padding-left:10px;
+    }
+    .outlook-hide {
+        overflow:hidden !important;
+        float:left !important;
+        display:none !important;
+        line-height:0 !important;
+    }
+    .outlook-width-400 {
+        width:400px;
+    }
+</style>
+<![endif]-->
+
 <?php print $page; ?>
+
 </body>
 </html>
