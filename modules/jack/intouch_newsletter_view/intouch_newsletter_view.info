@@ -1,0 +1,4 @@
+name = Intouch Newsletter view
+description = Intouch Newsletter view
+core = 7.x
+package = Intouch

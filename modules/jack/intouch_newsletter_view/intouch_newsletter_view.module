@@ -1,0 +1,226 @@
+<?php
+
+/**
+ * Implements hook_menu().
+ */
+function intouch_newsletter_view_menu()
+{
+    //
+    $items['mc-nl-preview/%'] = [
+        'type'             => MENU_CALLBACK,
+        'page callback'    => 'intouch_newsletter_view__preview',
+        'access arguments' => ['administer mailchimp'],
+        'page arguments'   => array(1),
+    ];
+    
+    /*
+    $items['mc-nl-update/%'] = [
+        'type'             => MENU_CALLBACK,
+        'page callback'    => 'intouch_newsletter_view__update',
+        'access arguments' => ['administer mailchimp'],
+        'page arguments'   => array(1),
+    ];
+    */
+    
+    $items['mc-nl-send-test/%'] = [
+        'type'             => MENU_CALLBACK,
+        'page callback'    => 'intouch_newsletter_view__send_test',
+        'access arguments' => ['administer mailchimp'],
+        'page arguments'   => array(1),
+    ];
+    
+    $items['mc-nl-send-campaign/%'] = [
+        'type'             => MENU_CALLBACK,
+        'page callback'    => 'intouch_newsletter_view__send_campaign',
+        'access arguments' => ['administer mailchimp'],
+        'page arguments'   => array(1),
+    ];
+    
+    return $items;
+}
+
+
+
+function intouch_newsletter_view__send_campaign($nlid)
+{
+    __intouch_newsletter_view__update($nlid);
+    
+    if ($node = __intouch_newsletter_view_loadNewsletterNode($nlid))
+    {
+        $nodeView = node_view($node, 'newsletter', LANGUAGE_NONE);
+        $html = drupal_render($nodeView);
+        echo $html;
+    }
+}
+
+function intouch_newsletter_view__send_test($nlid)
+{
+    __intouch_newsletter_view__update($nlid);
+    
+    try {
+        $node = __intouch_newsletter_view_loadNewsletterNode($nlid);
+        
+        if (!$node) {
+            throw new \Exception("Newsletter not found!");
+        }
+        
+        $recipients = [
+            "adam.jakab@mekit.it",
+            "luca.cattaneo@mekit.it",
+            "luigi.basile@fightbean.it",
+        ];
+
+        $campaignId = false;
+        if(isset($node->field_mailchimp_campaign_id[LANGUAGE_NONE][0]["value"])
+            && !empty($node->field_mailchimp_campaign_id[LANGUAGE_NONE][0]["value"])
+        )
+        {
+            $campaignId = $node->field_mailchimp_campaign_id[LANGUAGE_NONE][0]["value"];
+        }
+        
+        if (!$campaignId) {
+            throw new \Exception("Missing campaign ID");
+        }
+
+        /* @var \Mailchimp\MailchimpCampaigns $mailchimpCampaigns */
+        $mailchimpCampaigns = mailchimp_get_api_object('MailchimpCampaigns');
+
+        $mailchimpCampaigns->sendTest($campaignId, $recipients, \Mailchimp\MailchimpCampaigns::EMAIL_TYPE_HTML);
+
+        drupal_set_message("Test sent to: " . json_encode($recipients), 'status');
+        
+        
+    } catch (Exception $e)
+    {
+        drupal_set_message($e->getMessage(), 'error');
+        watchdog('mailchimp_campaign', 'An error occurred while creating this campaign: %message', array(
+            '%message' => $e->getMessage(),
+        ), WATCHDOG_ERROR);
+    }
+    
+    drupal_goto('admin/newsletters');
+}
+
+function intouch_newsletter_view__preview($nlid)
+{
+    if ($node = __intouch_newsletter_view_loadNewsletterNode($nlid))
+    {
+        $nodeView = node_view($node, 'newsletter', LANGUAGE_NONE);
+        $html = drupal_render($nodeView);
+        echo $html;
+    }
+}
+
+
+
+
+
+function __intouch_newsletter_view__update($nlid)
+{
+    if ($node = __intouch_newsletter_view_loadNewsletterNode($nlid))
+    {
+        $campaignId = false;
+        if(isset($node->field_mailchimp_campaign_id[LANGUAGE_NONE][0]["value"])
+            && !empty($node->field_mailchimp_campaign_id[LANGUAGE_NONE][0]["value"])
+        )
+        {
+            $campaignId = $node->field_mailchimp_campaign_id[LANGUAGE_NONE][0]["value"];
+        }
+        
+        /* @var \Mailchimp\MailchimpCampaigns $mailchimpCampaigns */
+        $mailchimpCampaigns = mailchimp_get_api_object('MailchimpCampaigns');
+        
+        $recipients = new \stdClass();
+        $recipients->list_id = "6f623913ac";//"In Touch"
+        
+        $settings = new \stdClass();
+        $settings->title = 'Newsletter #' . $node->title;
+        $settings->subject_line = 'Newsletter #' . $node->title;
+        $settings->from_name = 'InTouch';
+        $settings->reply_to = 'mc@staff.mekit.it';
+        
+        // CREATE
+        if(!$campaignId) {
+            try {
+                if (!$mailchimpCampaigns) {
+                    throw new MailchimpException('Cannot create campaign without Mailchimp API. Check API key has been entered.');
+                }
+                $result = $mailchimpCampaigns->addCampaign(\Mailchimp\MailchimpCampaigns::CAMPAIGN_TYPE_REGULAR, $recipients, $settings);
+                
+                if (!empty($result->id)) {
+                    $campaignId = $result->id;
+                    $node->field_mailchimp_campaign_id[LANGUAGE_NONE][0]["value"] = $campaignId;
+                    $node->field_mailchimp_campaign_status[LANGUAGE_NONE][0]["value"] = 'ready';
+                    node_save($node);
+                }
+            }
+            catch (Exception $e) {
+                drupal_set_message($e->getMessage(), 'error');
+                watchdog('mailchimp_campaign', 'An error occurred while creating this campaign: %message', array(
+                    '%message' => $e->getMessage(),
+                ), WATCHDOG_ERROR);
+                return NULL;
+            }
+        }
+        
+        if(!$campaignId) {
+            return null;
+        }
+        
+        //krumo($node);
+        //echo "UPDATING Campaign ID: " . $campaignId;
+        
+        //UPDATE
+        try {
+            if (!$mailchimpCampaigns) {
+                throw new MailchimpException('Cannot update campaign without Mailchimp API. Check API key has been entered.');
+            }
+            
+            $mailchimpCampaigns->updateCampaign($campaignId, \Mailchimp\MailchimpCampaigns::CAMPAIGN_TYPE_REGULAR,
+                                                $recipients, $settings);
+            
+            $nodeView = node_view($node, 'newsletter', LANGUAGE_NONE);
+            $html = drupal_render($nodeView);
+            
+            $content_parameters = [
+                'html' => $html
+            ];
+            $mailchimpCampaigns->setCampaignContent($campaignId, $content_parameters);
+            
+        }
+        catch (Exception $e) {
+            drupal_set_message($e->getMessage(), 'error');
+            watchdog('mailchimp_campaign', 'An error occurred while updating this campaign: %message', array(
+                '%message' => $e->getMessage(),
+            ), WATCHDOG_ERROR);
+            return NULL;
+        }
+    }
+}
+
+/**
+ * @param string $nlid
+ *
+ * @return bool|mixed
+ */
+function __intouch_newsletter_view_loadNewsletterNode($nlid)
+{
+    $nlid = intval($nlid);
+    if (!$nlid)
+    {
+        return false;
+    }
+    
+    $node = node_load($nlid);
+    if (!$node)
+    {
+        return false;
+    }
+    
+    if(!isset($node->type) || $node->type != "newsletter")
+    {
+        return false;
+    }
+    
+    return $node;
+}
