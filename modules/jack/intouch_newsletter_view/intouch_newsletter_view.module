@@ -43,14 +43,7 @@ function intouch_newsletter_view_menu()
 
 function intouch_newsletter_view__send_campaign($nlid)
 {
-    __intouch_newsletter_view__update($nlid);
-    
-    if ($node = __intouch_newsletter_view_loadNewsletterNode($nlid))
-    {
-        $nodeView = node_view($node, 'newsletter', LANGUAGE_NONE);
-        $html = drupal_render($nodeView);
-        echo $html;
-    }
+    //
 }
 
 function intouch_newsletter_view__send_test($nlid)
