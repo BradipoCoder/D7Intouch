@@ -36,11 +36,30 @@ class Nlarticle implements HookInterface
         $currentNode = $vars["node"];
         
         //link to node
-        $vars["content"]["link2article"] = url('node/' . $currentNode->nid);
+        $options = $vars["view_mode"] == 'newsletter' ? ['absolute'=>true] : [];
+        $vars["content"]["link2article"] = url('node/' . $currentNode->nid, $options);
+        
         
         //link to topic
         $tid = $currentNode->field_news_category[LANGUAGE_NONE][0]["tid"];
         $vars["content"]["news_category_link"] = url('newsletter/topic/' . $tid);
+    
+        //IMAGE as URL
+        $img = $currentNode->field_image[LANGUAGE_NONE][0];
+        $styleName = $vars["view_mode"] == 'newsletter' ? 'newsletter_cover_horizontal' : 'newsletter_cover_horizontal';
+        $vars["content"]["field_image_uri"] = image_style_url($styleName, $img["uri"]);
+        
+        //category color (NL only)
+        $categoryColors = [
+            'products_innovation' => '#32d96f',
+            'events' => '#5b6dd7',
+            'leadership' => '#4fdedd',
+            'people' => '#ffbf4c',
+            'projects' => '#f64b76',
+        ];
+        $catName = strtolower(ThemeHelper::getArticleCategoryNameFromNode($currentNode, 'field_news_category'));
+        $categoryColor = array_key_exists($catName, $categoryColors) ? $categoryColors[$catName] : '#495dd3';
+        $vars["content"]["category_color"] = $categoryColor;
     }
     
     

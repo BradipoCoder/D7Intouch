@@ -20,7 +20,7 @@ class Newsletter implements HookInterface
     {
         self::setupArticleClasses($vars);
         self::addChildrenToContent($vars);
-        self::addTeaserDataToContent($vars);
+        self::addDataToContent($vars);
         
         //dpm($vars, "NEWSLETTER");
     }
@@ -28,9 +28,9 @@ class Newsletter implements HookInterface
     /**
      * @param array $vars
      */
-    private static function addTeaserDataToContent(&$vars)
+    private static function addDataToContent(&$vars)
     {
-        if($vars["view_mode"] != 'teaser')
+        if(!in_array($vars["view_mode"], ['teaser', 'newsletter']))
         {
             return;
         }
@@ -39,17 +39,19 @@ class Newsletter implements HookInterface
         $currentNode = $vars["node"];
         
         //LINK
-        $vars["content"]["link2newsletter"] = url('node/' . $currentNode->nid);
+        $options = $vars["view_mode"] == 'newsletter' ? ['absolute'=>true] : [];
+        $vars["content"]["link2newsletter"] = url('node/' . $currentNode->nid, $options);
         
         //BG IMAGE
         $img = $currentNode->field_image[LANGUAGE_NONE][0];
-        $vars["content"]["newletter_cover"] = image_style_url('newsletter_cover_horizontal', $img["uri"]);
+        $styleName = $vars["view_mode"] == 'newsletter' ? 'newsletter_cover_horizontal' : 'newsletter_cover_horizontal';
+        $vars["content"]["newletter_cover"] = image_style_url($styleName, $img["uri"]);
     }
     
     
     private static function addChildrenToContent(&$vars)
     {
-        if($vars["view_mode"] != 'full')
+        if(!in_array($vars["view_mode"], ['full', 'newsletter']))
         {
             return;
         }
@@ -69,12 +71,9 @@ class Newsletter implements HookInterface
         }
 
         $nodes = node_load_multiple($nids);
-        $views = node_view_multiple($nodes, 'teaser', 0, LANGUAGE_NONE);
-        
+        $viewMode = $vars["view_mode"] == 'newsletter' ? 'newsletter' : 'teaser';
+        $views = node_view_multiple($nodes, $viewMode, 0, LANGUAGE_NONE);
         $vars["content"]["articles"] = $views;
-        //dpm($nids, "CHILDREN");
-            
-        
     }
     
     /**
