@@ -6,3 +6,8 @@ body{
 body.cke_editable{
   margin: 20px;
 }
+
+span.highlighted
+{
+    background-color: rgba(91, 109, 215, 0.2);
+}
