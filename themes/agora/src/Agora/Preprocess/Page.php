@@ -40,9 +40,16 @@ class Page implements HookInterface
         if(arg(0) == 'user') {
             return;
         }
-    
-        //exclude some specific paths
+        
         if(arg(0) == 'nlp') {
+            return;
+        }
+        
+        if(arg(0) == 'mc-nl-send-test') {
+            return;
+        }
+        
+        if(arg(0) == 'mc-nl-send-campaign') {
             return;
         }
         
