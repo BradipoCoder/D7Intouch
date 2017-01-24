@@ -32,6 +32,48 @@ function intouch_newsletter_view_menu()
 
 function intouch_newsletter_view__send_campaign($nlid)
 {
+    $node = __intouch_newsletter_view_loadNewsletterNode($nlid);
+    
+    
+    $out = [
+        'container' => [
+            '#prefix' => '<div class="container single-articles-wrapper">',
+            '#suffix' => '</div>',
+            'intro' => [
+                '#markup' => '<h3>Newsletter #'.$node->title.'</h3>'
+                    . '<h4>Are you sure you want to send this campaign?</h4>',
+            ],
+            'form' => drupal_get_form("intouch_newsletter_view_sendcampaign_form"),
+        ],
+    ];
+    
+    return $out;
+}
+
+
+function intouch_newsletter_view_sendcampaign_form($form, &$form_state)
+{
+    if(isset($form_state["clicked_button"]["#value"]) && $form_state["clicked_button"]["#value"] == "Cancel")
+    {
+        drupal_goto('admin/newsletters');
+    }
+    
+    $form['back_link'] = array(
+        '#type' => 'button',
+        '#value' => t('Cancel'),
+    );
+    
+    $form['send_link'] = array(
+        '#type' => 'button',
+        '#value' => t('Send Campaign'),
+    );
+    
+    return $form;
+}
+
+
+function __intouch_newsletter_view__send_campaign($nlid)
+{
     __intouch_newsletter_view__update($nlid);
     
     try
@@ -79,27 +121,93 @@ function intouch_newsletter_view__send_campaign($nlid)
     
 }
 
+
+
 function intouch_newsletter_view__send_test($nlid)
 {
-    $out = [];
+    $node = __intouch_newsletter_view_loadNewsletterNode($nlid);
     
-    $out["form"] = [
-        'recipients' => [
-            '#title' => 'Recipients',
-            '#type' => 'textarea',
-            '#value' => 'jonny',
-            '#required' => TRUE,
-            '#cols' => 60,
-            '#rows' => 3,
+    $out = [
+        'container' => [
+            '#prefix' => '<div class="container single-articles-wrapper">',
+            '#suffix' => '</div>',
+            'intro' => [
+                '#markup' => '<h3>Newsletter #'.$node->title.'</h3>'
+                    . '<h4>Are you sure you want to send the tests to 
+                the recipients below?</h4>',
+            ],
+            'form' => drupal_get_form("intouch_newsletter_view_testsend_form"),
         ],
     ];
-    
     
     
     return $out;
 }
 
-function _intouch_newsletter_view__send_test($nlid)
+function intouch_newsletter_view_testsend_form($form, &$form_state) {
+    global $user;
+    
+    if(isset($form_state["clicked_button"]["#value"]) && $form_state["clicked_button"]["#value"] == "Cancel")
+    {
+        drupal_goto('admin/newsletters');
+    }
+    
+    $recipients = variable_get('intouch_newsletter_view_test_emails', $user->mail);
+    
+    $form["recipients"] = [
+        '#title' => 'Recipients',
+        '#type' => 'textarea',
+        '#default_value' => $recipients,
+        '#required' => TRUE,
+        '#description' => 'Insert a comma separated list of emails.',
+        '#cols' => 60,
+        '#rows' => 3,
+    ];
+    
+    $form['back_link'] = array(
+        '#type' => 'button',
+        '#value' => t('Cancel'),
+    );
+    
+    $form['submit_button'] = array(
+        '#type' => 'submit',
+        '#value' => t('Send tests'),
+    );
+    
+    return $form;
+}
+
+
+function intouch_newsletter_view_testsend_form_submit($form, &$form_state)
+{
+    $nid = arg(1);
+    
+    //dpm($form_state, "FS-SUB");
+    
+    if(isset($form_state['values']['recipients']))
+    {
+        variable_set('intouch_newsletter_view_test_emails', $form_state['values']['recipients']);
+    }
+    
+    global $user;
+    $recipients = [];
+    $recipientList = variable_get('intouch_newsletter_view_test_emails', $user->mail);
+    $parts = explode(",", $recipientList);
+    foreach($parts as $email)
+    {
+        $email = trim($email);
+        //@todo: check if valid
+        if(true)
+        {
+            $recipients[] = $email;
+        }
+    }
+    
+    __intouch_newsletter_view__send_test($nid, $recipients);
+}
+
+
+function __intouch_newsletter_view__send_test($nlid, $recipients)
 {
     __intouch_newsletter_view__update($nlid);
     
@@ -111,13 +219,7 @@ function _intouch_newsletter_view__send_test($nlid)
         {
             throw new \Exception("Newsletter not found!");
         }
-        
-        $recipients = [
-            "adam.jakab@mekit.it",
-            "luca.cattaneo@mekit.it",
-            "luigi.basile@fightbean.it",
-        ];
-        
+                
         $campaignId = false;
         if (isset($node->field_mailchimp_campaign_id[LANGUAGE_NONE][0]["value"])
             && !empty($node->field_mailchimp_campaign_id[LANGUAGE_NONE][0]["value"])
@@ -182,7 +284,7 @@ function __intouch_newsletter_view__update($nlid)
         $settings->title = 'Newsletter #' . $node->title;
         $settings->subject_line = 'Newsletter #' . $node->title;
         $settings->from_name = 'InTouch';
-        $settings->reply_to = 'mc@staff.mekit.it';
+        $settings->reply_to = variable_get('mailchimp_reply_to', 'mc@staff.mekit.it');
         
         // CREATE
         if (!$campaignId)
