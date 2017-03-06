@@ -101,7 +101,7 @@ function agora_form_node_form_alter(&$form, $form_state)
  */
 function agora_form_alter(&$form, &$form_state, $form_id)
 {
-    HookExecutor::executeGenericHook(['alter', 'form', 'id', $form_id], [&$form, $form_state], true);
+    HookExecutor::executeGenericHook(['alter', 'form', 'id', $form_id], [&$form, &$form_state], true);
 }
 
 /**

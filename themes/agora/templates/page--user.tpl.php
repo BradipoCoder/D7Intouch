@@ -2,6 +2,14 @@
 /**
  * Page for user (login/profile)
  */
+
+/*
+         <?php if ($tabs): ?>
+            <div class="tabs">
+                <?php print render($tabs); ?>
+            </div>
+        <?php endif; ?>
+ */
 ?>
 
 <?php if ($messages) : ?>
@@ -9,6 +17,8 @@
         <?php print $messages; ?>
     </div>
 <?php endif; ?>
+
+
     
     
 <div class="main-container">

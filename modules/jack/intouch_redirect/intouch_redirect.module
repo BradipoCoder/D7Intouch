@@ -9,17 +9,33 @@ function intouch_redirect_boot()
         //we are on <front>
         global $user;
         
-        
-        
         if ($user->uid == 0) {
             $url = 'user';
         } else {
-            $url = 'newsletter/1';
+            $url = _intouch_redirect_get_newsletter_entry_page_url();
         }
-        
-        
+
         header('Location: ' . $url, TRUE, 302);
-        //drupal_exit();
         exit();
     }
+}
+
+/**
+ * Redirecting user to main newsletter page after login
+ *
+ * @param array $edit
+ * @param array $account
+ */
+function intouch_redirect_user_login(&$edit, $account) {
+    $edit['redirect'] = _intouch_redirect_get_newsletter_entry_page_url();
+}
+
+/**
+ * @todo: get id of latest newsletter
+ *
+ * @return string
+ */
+function _intouch_redirect_get_newsletter_entry_page_url()
+{
+    return 'newsletter/1';
 }
